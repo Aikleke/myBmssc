@@ -381,13 +381,13 @@ void insert_move(int *ss,int ele,int clu,double delta){
     CluLen[clu]++;
     ObjClu[temp] -= MatrixNK[ele][temp];
     ObjClu[clu] += MatrixNK[ele][clu];
-    Objective += delta;
     updateMatrixNK(ele, temp, clu);
+    Objective += delta;
 }
 double tbe(int l_iter, int *ss, double maxTime)
 {
     double delta;
-    Objective = caculateObj(ss);
+    //Objective = caculateObj(ss);
     //one-move move
     int l = 0;
     while ((clock() - StartTime) / CLOCKS_PER_SEC <= maxTime && l < l_iter)
@@ -456,7 +456,7 @@ double dbi(int *ss, double maxTime)
 {
     double delta;
     int flag_move = 1;
-    Objective = caculateObj(ss);
+    //Objective = caculateObj(ss);
     //one-move move
     if (N%K != 0)
     {
@@ -545,6 +545,7 @@ int rts(int *ss, double maxTime)
     initialMatrixNKAndObjClu(ss);
     child_update.cost = MAXNUM;
     //while ((clock() - StartTime) / CLOCKS_PER_SEC <= maxTime)
+
     while (iter<RTS_ITER)
     {
         currentValue = tbe(LL, ss, maxTime);                                //threshold-based exploration
@@ -577,8 +578,9 @@ void initialPopulation(double maxTime)
     {
         randomConstruction(Pop[i].p);
         initialMatrixNKAndObjClu(Pop[i].p);
+        Objective=caculateObj(Pop[i].p);
         dbi(Pop[i].p, 0.01*maxTime);
-        Pop[i].cost = caculateObj(Pop[i].p);
+        Pop[i].cost = Objective;
     }
 }
 
