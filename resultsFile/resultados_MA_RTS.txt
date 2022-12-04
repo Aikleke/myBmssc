@@ -474,3 +474,8 @@ wine:bestV=-1.562229e+07,avgV=-1.513588e+07,bestTime=0.32,avgTime=0.49,K=4
 wine:bestV=-1.645822e+07,avgV=-1.633707e+07,bestTime=0.46,avgTime=0.49,K=6
 wine:bestV=-1.670452e+07,avgV=-1.622762e+07,bestTime=0.41,avgTime=0.52,K=7
 122-11-4-17:54:38
+122-11-4-18:4:54
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.56,avgTime=0.60,K=2
+wine:bestV=2.872532e+06,avgV=2.899440e+06,bestTime=0.45,avgTime=0.47,K=3
+wine:bestV=1.853024e+06,avgV=1.874261e+06,bestTime=0.55,avgTime=0.58,K=4
+wine:bestV=9.377357e+05,avgV=9.603005e+05,bestTime=0.47,avgTime=0.50,K=6

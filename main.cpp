@@ -886,7 +886,7 @@ void freeMemory()
 
 int main(int argc, char *argv[])
 {
-    cout<<filesystem::current_path()<<endl;
+    //cout<<<<endl;
     string instances[DATASETNUM];
     //数据集的数据：聚类数目，点数量，点纬度，算例名称
     int nClusters[DATASETNUM];
@@ -896,82 +896,88 @@ int main(int argc, char *argv[])
 
     int nCluterK[DATASETNUM][CLUTERNUM];
     int cluK1[CLUTERNUM] = { 2, 3, 4, 6, 7, 10, 11, 13, 15, 20 };
-    string PATH = "../datasets/";
+    string PATH;
+#ifdef __APPLE__
+    PATH = "/Users/dongfengke/CLionProjects/myBmssc/";
+#else
+    PATH = "C:/Users/dongfengke/source/repos/myBmssc/";
+
+#endif
     //1
-    instances[0] = PATH + "iris.txt";    //150
+    instances[0] = PATH + "datasets/iris.txt";    //150
     nPoints[0] = 150; nDimensions[0] = 4; nClusters[0] = 6;
     instanceName[0] = "iris";
     //2
-    instances[1] = PATH + "wine.txt";    //178
+    instances[1] = PATH + "datasets/wine.txt";    //178
     nPoints[1] = 178; nDimensions[1] = 13; nClusters[1] = 3;
     instanceName[1] = "wine";
     //3
-    instances[2] = PATH + "glass.txt";    //214
+    instances[2] = PATH + "datasets/glass.txt";    //214
     nPoints[2] = 214; nDimensions[2] = 9; nClusters[2] = 7;
     instanceName[2] = "glass";
     //4
-    instances[3] = PATH + "thyroid.txt";//215
+    instances[3] = PATH + "datasets/thyroid.txt";//215
     nPoints[3] = 215; nDimensions[3] = 5; nClusters[3] = 3;
     instanceName[3] = "thyroid";
     //5
-    instances[4] = PATH + "ionosphere.txt"; //351
+    instances[4] = PATH + "datasets/ionosphere.txt"; //351
     nPoints[4] = 351; nDimensions[4] = 34; nClusters[4] = 2;
     instanceName[4] = "ionosphere";
     //6
-    instances[5] = PATH + "libra.txt";//360
+    instances[5] = PATH + "datasets/libra.txt";//360
     nPoints[5] = 360; nDimensions[5] = 90; nClusters[5] = 15;
     instanceName[5] = "libra";
     //7
-    instances[6] = PATH + "user_knowledge.txt";//403
+    instances[6] = PATH + "datasets/user_knowledge.txt";//403
     nPoints[6] = 403; nDimensions[6] = 5; nClusters[6] = 4;
     instanceName[6] = "user_knowledge";
     //8
-    instances[7] = PATH + "body.txt";//507
+    instances[7] = PATH + "datasets/body.txt";//507
     nPoints[7] = 507; nDimensions[7] = 5; nClusters[7] = 2;
     instanceName[7] = "body";
     //9
-    instances[8] = PATH + "water.txt";//527
+    instances[8] = PATH + "datasets/water.txt";//527
     nPoints[8] = 527; nDimensions[8] = 38; nClusters[8] = 13;
     instanceName[8] = "water";
     //10
-    instances[9] = PATH + "breast.txt";//569
+    instances[9] = PATH + "datasets/breast.txt";//569
     nPoints[9] = 569; nDimensions[9] = 30; nClusters[9] = 2;
     instanceName[9] = "breast";
     //11
-    instances[10] = PATH + "synthetic.txt";//600
+    instances[10] = PATH + "datasets/synthetic.txt";//600
     nPoints[10] = 600; nDimensions[10] = 60; nClusters[10] = 6;
     instanceName[10] = "synthetic";
     //12
-    instances[11] = PATH + "vehicle.txt";//846
+    instances[11] = PATH + "datasets/vehicle.txt";//846
     nPoints[11] = 846; nDimensions[11] = 18; nClusters[11] = 6;
     instanceName[11] = "vehicle";
     //13
-    instances[12] = PATH + "vowel.txt";//990
+    instances[12] = PATH + "datasets/vowel.txt";//990
     nPoints[12] = 990; nDimensions[12] = 10; nClusters[12] = 11;
     instanceName[12] = "vowel";
     //14
-    instances[13] = PATH + "yeast.txt"; //1484
+    instances[13] = PATH + "datasets/yeast.txt"; //1484
     nPoints[13] = 1484; nDimensions[13] = 8; nClusters[13] = 10;
     instanceName[13] = "yeast";
     //15
-    instances[14] = PATH + "multiple.txt";//2000
+    instances[14] = PATH + "datasets/multiple.txt";//2000
     nPoints[14] = 2000; nDimensions[14] = 240; nClusters[14] = 7;
     instanceName[14] = "multiple";
     //16
-    instances[15] = PATH + "image.txt";//2310
+    instances[15] = PATH + "datasets/image.txt";//2310
     nPoints[15] = 2310; nDimensions[15] = 19; nClusters[15] = 7;
     instanceName[15] = "image";
     ofstream resultsFile;
     ofstream valuesFile;
-    resultsFile.open("../resultsFile/resultados_MA_RTS.txt", ofstream::app);
-    valuesFile.open("../valuesFile/solucoes_MA_RTS.txt", ofstream::app);
+    resultsFile.open(PATH+"resultsFile/resultados_MA_RTS.txt", ofstream::app);
+    valuesFile.open(PATH+"valuesFile/solucoes_MA_RTS.txt", ofstream::app);
     Runs = 10;
     RTS_ITER = 50;
     double bestValue = MAXNUM;
     double avgValue = 0;
     double avgTime = 0;
     double bestTime;
-    string timeFile = PATH + "time1.txt";
+    string timeFile = PATH + "datasets/time1.txt";
     readTimeFile(timeFile);
     ObjBest = MAXNUM;
     /**
