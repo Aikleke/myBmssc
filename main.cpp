@@ -537,6 +537,7 @@ int rts(int *ss, double maxTime)
     TA = 16.73;                                        //ta,tb,tc 这三个参数怎么确定的
     TB = 76.56;
     TC = 0.0031;
+
     ObjP = Objective;
     TR = 1 / (TA*(ObjP / 1000) + TB) + TC;
     ThreshT = (1 + TR)*ObjP;
