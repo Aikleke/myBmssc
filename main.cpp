@@ -403,11 +403,9 @@ double tbe(int l_iter, int *ss, double maxTime)
                 for (int jnd = 0; jnd < K; jnd++)
                 {
                     int clu = randK[jnd];
-                    //cout << "jnd="<<jnd<<",clu=" << clu << endl;
                     if (CluLen[ss[ele]] == CluLen[clu] + 1)
                     {
                         delta = cal_insert_delta(ss,ele,clu);
-                        //cout << "delta=" << delta << endl;
                         if (Objective + delta < ThreshT)
                         {
                             insert_move(ss,ele,clu,delta);
@@ -416,12 +414,12 @@ double tbe(int l_iter, int *ss, double maxTime)
                                 ObjBest = Objective;
                                 FinishTime = clock();
                             }
-                            //checkMove(Objective, ss);
                         }
                     }
                 }
             }
         }
+        //shuffle(randN,randN+N,g);
         //swap move
         for (int ind = 0; ind < N; ind++)
         {
@@ -485,14 +483,16 @@ double dbi(int *ss, double maxTime)
                         }
                     }
                 }
-                //printf("ele=%d,Objective=%6f,threshT=%6f\n",ele,Objective,ThreshT);
             }
         }
     }
     //swap move
     flag_move = 1;
+    int ii=0;
     while (flag_move && (clock() - StartTime) / CLOCKS_PER_SEC <= maxTime)
     {
+        ii++;
+        if(ii>=5) cout<<"warning"<<endl;
         flag_move = 0;
         //打乱顺序，随机构建邻域
         shuffle(randN, randN+N,g);
@@ -507,10 +507,13 @@ double dbi(int *ss, double maxTime)
                     delta = cal_swap_delta(ss,ele,ele2);
                     if (delta < 0)
                     {
+                        //shuffle(randN, randN+N,g);
                         //do swap
                         swap_move(ss,ele,ele2,delta);
                         //checkMove(Objective, ss);
                         flag_move = 1;
+                        ind=0;
+                        ind2=-1;
                     }
                 }
             }
@@ -880,6 +883,7 @@ void freeMemory()
 
 int main(int argc, char *argv[])
 {
+    cout<<filesystem::current_path()<<endl;
     string instances[DATASETNUM];
     //数据集的数据：聚类数目，点数量，点纬度，算例名称
     int nClusters[DATASETNUM];
@@ -889,7 +893,7 @@ int main(int argc, char *argv[])
 
     int nCluterK[DATASETNUM][CLUTERNUM];
     int cluK1[CLUTERNUM] = { 2, 3, 4, 6, 7, 10, 11, 13, 15, 20 };
-    string PATH = "/Users/dongfengke/Desktop/my_graduation/datasets/";
+    string PATH = "../datasets/";
     //1
     instances[0] = PATH + "iris.txt";    //150
     nPoints[0] = 150; nDimensions[0] = 4; nClusters[0] = 6;
@@ -956,8 +960,8 @@ int main(int argc, char *argv[])
     instanceName[15] = "image";
     ofstream resultsFile;
     ofstream valuesFile;
-    resultsFile.open("/Users/dongfengke/Desktop/my_graduation/resultsFile/resultados_MA_RTS.txt", ofstream::app);
-    valuesFile.open("/Users/dongfengke/Desktop/my_graduation/valuesFile/solucoes_MA_RTS.txt", ofstream::app);
+    resultsFile.open("../resultsFile/resultados_MA_RTS.txt", ofstream::app);
+    valuesFile.open("../valuesFile/solucoes_MA_RTS.txt", ofstream::app);
     Runs = 10;
     RTS_ITER = 50;
     double bestValue = MAXNUM;
