@@ -13,13 +13,24 @@
 #include<vector>
 using namespace std;
 
+typedef long long LL;
+#define PopNum 15                                        //种群大小
+#define DEBUG
+#define MAXNUM 99999999999999
+#define NUM1    50
+#define DEVIATION    0.000001
+#define DATASETNUM 16
+#define CLUTERNUM 10
+#define RUNS 10
+#define precision 10000
+
 double StartTime, FinishTime, Runtime;
 int Runs;        //每个算例运行次数
 
 int *BestS;
 int *CluLen;    //每个cluster的size，swap前后size不变
-double Objective;
-double ObjBest;
+LL Objective;
+LL ObjBest;
 
 //N,K,D在main函数里给出
 int N;        //the number of vertices
@@ -27,9 +38,9 @@ int K;        //the number of clusters
 int D;        //dimensions
 int Type;        //算例类型
 double **Point;    //顶点坐标，坐标维度为D
-double **MatrixNK;
-double *ObjClu;    //每个cluster的目标值，没有除以该cluster的size
-double **DisSquare;    //欧几里得空间的任意两点的欧式距离的平方
+LL **MatrixNK;
+LL *ObjClu;    //每个cluster的目标值，没有除以该cluster的size
+LL **DisSquare;    //欧几里得空间的任意两点的欧式距离的平方
 
 // for random
 class Random {
@@ -65,7 +76,7 @@ std::mt19937 g(rd());
 //for the memetic algorithm
 typedef struct Population{
     int *p;
-    double cost;
+    LL cost;
 }Population;
 Population *Pop;
 Population Child;        //子代
@@ -92,14 +103,8 @@ int *randK;
 int *flagN;
 int *flagK;
 
-#define PopNum 15                                        //种群大小
-#define DEBUG
-#define MAXNUM 99999999999999
-#define NUM1    50
-#define DEVIATION    0.000001
-#define DATASETNUM 16
-#define CLUTERNUM 10
-#define RUNS 10
+
+
 double MaxTimes[DATASETNUM][CLUTERNUM][RUNS]; //数据集数量16*簇种类10*跑的次数10
 void initialing(string file)
 {
@@ -139,10 +144,10 @@ void initialing(string file)
     }
 
     BestS = new int[N];
-    DisSquare = new double*[N];
+    DisSquare = new LL*[N];
     for (int i = 0; i < N; i++)
     {
-        DisSquare[i] = new double[N];
+        DisSquare[i] = new LL[N];
     }
     for (int i = 0; i < N; i++)
     {
@@ -160,7 +165,7 @@ void initialing(string file)
             int dimens = 0;
             while (dimens < D)
             {
-                DisSquare[i][j] += (Point[i][dimens] - Point[j][dimens])*(Point[i][dimens] - Point[j][dimens]);
+                DisSquare[i][j] += (Point[i][dimens] - Point[j][dimens])*(Point[i][dimens] - Point[j][dimens])*precision;
                 dimens++;
             }
             DisSquare[j][i] = DisSquare[i][j];
@@ -170,13 +175,13 @@ void initialing(string file)
 
 void allocateMemory()
 {
-    MatrixNK = new double*[N];
+    MatrixNK = new LL*[N];
     for (int i = 0; i < N; i++)
     {
-        MatrixNK[i] = new double[K];
+        MatrixNK[i] = new LL[K];
     }
     CluLen = new int[K];
-    ObjClu = new double[K];
+    ObjClu = new LL[K];
     randN = new int[N];
     randK = new int[K];
     for(int i=0;i<N;i++){
@@ -229,7 +234,6 @@ void readTimeFile(string file)
         ss << line;
         while (ss >> dd)            //算例文件经过格式化处理，每列数据以制表符分割
         {
-            cout<<col3<<endl;
             MaxTimes[col1][col2][col3++] = dd;
         }
         col2++;
@@ -282,10 +286,10 @@ void randomConstruction(int *ss)
 }
 
 //计算目标函数值
-double caculateObj(int *ss)
+LL caculateObj(int *ss)
 {
-    double dd;
-    double obj = 0;
+    LL dd;
+    LL obj = 0;
     for (int i = 0; i < K; i++)
     {
         dd = 0;
@@ -454,7 +458,7 @@ double tbe(int l_iter, int *ss, double maxTime)
 //descent based improvement
 double dbi(int *ss, double maxTime)
 {
-    double delta;
+    LL delta;
     int flag_move = 1;
     //Objective = caculateObj(ss);
     //one-move move
@@ -531,7 +535,7 @@ double dbi(int *ss, double maxTime)
 int rts(int *ss, double maxTime)
 {
     int iter = 0, w = 0;
-    double currentValue;
+    LL currentValue;
     int LL = 5;
     Objective = caculateObj(ss);
     TA = 16.73;                                        //ta,tb,tc 这三个参数怎么确定的
@@ -732,7 +736,7 @@ void crossover()
 void  updatePopulation(int *ch, double cost)
 {
     int i, flag_diff;
-    double maxCost = -MAXNUM;
+    LL maxCost = -MAXNUM;
     int select;
     for (i = 0; i < PopNum; i++)
     {
