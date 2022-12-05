@@ -13,6 +13,7 @@
 #include<vector>
 using namespace std;
 
+typedef long long LL;
 double StartTime, FinishTime, Runtime;
 int Runs;        //每个算例运行次数
 
@@ -27,9 +28,9 @@ int K;        //the number of clusters
 int D;        //dimensions
 int Type;        //算例类型
 double **Point;    //顶点坐标，坐标维度为D
-double **MatrixNK;
+LL **MatrixNK;
 double *ObjClu;    //每个cluster的目标值，没有除以该cluster的size
-double **DisSquare;    //欧几里得空间的任意两点的欧式距离的平方
+LL **DisSquare;    //欧几里得空间的任意两点的欧式距离的平方
 
 // for random
 class Random {
@@ -92,6 +93,7 @@ int *randK;
 int *flagN;
 int *flagK;
 
+#define precision 1000000
 #define PopNum 15                                        //种群大小
 #define DEBUG
 #define MAXNUM 99999999999999
@@ -139,10 +141,10 @@ void initialing(string file)
     }
 
     BestS = new int[N];
-    DisSquare = new double*[N];
+    DisSquare = new LL*[N];
     for (int i = 0; i < N; i++)
     {
-        DisSquare[i] = new double[N];
+        DisSquare[i] = new LL[N];
     }
     for (int i = 0; i < N; i++)
     {
@@ -160,7 +162,7 @@ void initialing(string file)
             int dimens = 0;
             while (dimens < D)
             {
-                DisSquare[i][j] += (Point[i][dimens] - Point[j][dimens])*(Point[i][dimens] - Point[j][dimens]);
+                DisSquare[i][j] += (Point[i][dimens] - Point[j][dimens])*(Point[i][dimens] - Point[j][dimens])*precision;
                 dimens++;
             }
             DisSquare[j][i] = DisSquare[i][j];
@@ -170,10 +172,10 @@ void initialing(string file)
 
 void allocateMemory()
 {
-    MatrixNK = new double*[N];
+    MatrixNK = new LL*[N];
     for (int i = 0; i < N; i++)
     {
-        MatrixNK[i] = new double[K];
+        MatrixNK[i] = new LL[K];
     }
     CluLen = new int[K];
     ObjClu = new double[K];
@@ -356,12 +358,12 @@ void checkMove(double obj, int *ss)
 }
 
 double cal_insert_delta(int *ss,int ele,int clu){
-    return (ObjClu[ss[ele]] - MatrixNK[ele][ss[ele]]) / (CluLen[ss[ele]] - 1) + (MatrixNK[ele][clu] + ObjClu[clu]) / (CluLen[clu] + 1)
+    return (ObjClu[ss[ele]] - 1.0*MatrixNK[ele][ss[ele]]) / (CluLen[ss[ele]] - 1) + (MatrixNK[ele][clu] + ObjClu[clu]) / (CluLen[clu] + 1)
            - (ObjClu[ss[ele]] / CluLen[ss[ele]] + ObjClu[clu] / CluLen[clu]);
 }
 double cal_swap_delta(int *ss,int ele,int ele2){
-    return (MatrixNK[ele2][ss[ele]] - DisSquare[ele][ele2] - MatrixNK[ele][ss[ele]]) / CluLen[ss[ele]] +
-           (MatrixNK[ele][ss[ele2]] - DisSquare[ele][ele2] - MatrixNK[ele2][ss[ele2]]) / CluLen[ss[ele2]];
+    return 1.0*(MatrixNK[ele2][ss[ele]] - DisSquare[ele][ele2] - MatrixNK[ele][ss[ele]]) / CluLen[ss[ele]] +
+           1.0*(MatrixNK[ele][ss[ele2]] - DisSquare[ele][ele2] - MatrixNK[ele2][ss[ele2]]) / CluLen[ss[ele2]];
 }
 void swap_move(int *ss,int ele,int ele2,double delta){
     int temp = ss[ele];
@@ -386,7 +388,7 @@ void insert_move(int *ss,int ele,int clu,double delta){
 }
 double tbe(int l_iter, int *ss, double maxTime)
 {
-    double delta;
+    LL delta;
     //Objective = caculateObj(ss);
     //one-move move
     int l = 0;
@@ -454,7 +456,7 @@ double tbe(int l_iter, int *ss, double maxTime)
 //descent based improvement
 double dbi(int *ss, double maxTime)
 {
-    double delta;
+    LL delta;
     int flag_move = 1;
     //Objective = caculateObj(ss);
     //one-move move
