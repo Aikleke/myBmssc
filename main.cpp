@@ -168,6 +168,7 @@ void initialing(string file)
             DisSquare[j][i] = DisSquare[i][j];
         }
     }
+    fs.close();
 }
 
 void allocateMemory()
@@ -253,6 +254,7 @@ void readTimeFile(string file)
     }
     cout << endl;
 #endif
+    fs.close();
 }
 /**
  随机初始化函数
