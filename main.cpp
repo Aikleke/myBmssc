@@ -19,8 +19,8 @@ int Runs;        //每个算例运行次数
 
 int *BestS;
 int *CluLen;    //每个cluster的size，swap前后size不变
-double Objective;
-double ObjBest;
+LL Objective;
+LL ObjBest;
 
 //N,K,D在main函数里给出
 int N;        //the number of vertices
@@ -85,8 +85,8 @@ int *addressUnaV;
 //for responsive threshold search
 double TR;                    //threshold ratio
 double TA, TB, TC;            //the parameters
-double ThreshT;                //threshold T
-double ObjP;
+LL ThreshT;                //threshold T
+LL ObjP;
 int RTS_ITER;                //每代，RTS迭代次数
 int *randN;
 int *randK;
@@ -843,7 +843,7 @@ void memetic(double maxTime)
         rts(Child.p, maxTime);
         updatePopulation(child_update.p, child_update.cost);
 #ifdef __APPLE__
-        printf("generations=%d,objbest=%6f,spend time=%f\n", iter++, ObjBest, (clock() - StartTime) / CLOCKS_PER_SEC);
+        printf("generations=%d,objbest=%6f,spend time=%f\n", iter++, (double)ObjBest, (clock() - StartTime) / CLOCKS_PER_SEC);
 #endif
     }
     compute_similarity();
@@ -1010,8 +1010,8 @@ int main(int argc, char *argv[])
         time(&raw_time);
         ptminfo=localtime(&raw_time);
 #ifdef __APPLE__
-        resultsFile <<ptminfo->tm_year<<"-"<<ptminfo->tm_mon<<"-"<<ptminfo->tm_mday<<"-"<<ptminfo->tm_hour<<":"<<ptminfo->tm_min<<":"<<ptminfo->tm_sec<<endl;
-        valuesFile <<ptminfo->tm_year<<"-"<<ptminfo->tm_mon<<"-"<<ptminfo->tm_mday<<"-"<<ptminfo->tm_hour<<":"<<ptminfo->tm_min<<":"<<ptminfo->tm_sec<<endl;
+        resultsFile <<ptminfo->tm_year+1900<<"-"<<ptminfo->tm_mon+1<<"-"<<ptminfo->tm_mday<<"-"<<ptminfo->tm_hour<<":"<<ptminfo->tm_min<<":"<<ptminfo->tm_sec<<endl;
+        valuesFile <<ptminfo->tm_year+1900<<"-"<<ptminfo->tm_mon+1<<"-"<<ptminfo->tm_mday<<"-"<<ptminfo->tm_hour<<":"<<ptminfo->tm_min<<":"<<ptminfo->tm_sec<<endl;
 #endif
         for (int k = 0; k < CLUTERNUM; k++)
         {
