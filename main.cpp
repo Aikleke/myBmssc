@@ -840,7 +840,9 @@ void memetic(double maxTime)
         crossover();
         rts(Child.p, maxTime);
         updatePopulation(child_update.p, child_update.cost);
+#ifdef __APPLE
         printf("generations=%d,objbest=%6f,spend time=%f\n", iter++, ObjBest, (clock() - StartTime) / CLOCKS_PER_SEC);
+#endif
     }
     compute_similarity();
 }
