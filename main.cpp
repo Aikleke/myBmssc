@@ -27,7 +27,7 @@ int N;        //the number of vertices
 int K;        //the number of clusters
 int D;        //dimensions
 int Type;        //算例类型
-double **Point;    //顶点坐标，坐标维度为D
+LL **Point;    //顶点坐标，坐标维度为D
 LL **MatrixNK;
 double *ObjClu;    //每个cluster的目标值，没有除以该cluster的size
 LL **DisSquare;    //欧几里得空间的任意两点的欧式距离的平方
@@ -93,9 +93,9 @@ int *randK;
 int *flagN;
 int *flagK;
 
-#define precision 1000000
+#define precision 100000
 #define PopNum 15                                        //种群大小
-#define DEBUG
+#define DEBUG2
 #define MAXNUM 99999999999999
 #define NUM1    50
 #define DEVIATION    0.000001
@@ -116,10 +116,10 @@ void initialing(string file)
         getchar();
         exit(1);
     }
-    Point = new double*[N];
+    Point = new LL*[N];
     for (int index = 0; index < N; index++)
     {
-        Point[index] = new double[D];
+        Point[index] = new LL[D];
     }
     while (getline(fs, line))
     {
@@ -231,7 +231,6 @@ void readTimeFile(string file)
         ss << line;
         while (ss >> dd)            //算例文件经过格式化处理，每列数据以制表符分割
         {
-            cout<<col3<<endl;
             MaxTimes[col1][col2][col3++] = dd;
         }
         col2++;
@@ -490,11 +489,8 @@ double dbi(int *ss, double maxTime)
     }
     //swap move
     flag_move = 1;
-    int ii=0;
     while (flag_move && (clock() - StartTime) / CLOCKS_PER_SEC <= maxTime)
     {
-        ii++;
-        if(ii>=5) cout<<"warning"<<endl;
         flag_move = 0;
         //打乱顺序，随机构建邻域
         shuffle(randN, randN+N,g);
@@ -1003,8 +999,10 @@ int main(int argc, char *argv[])
         struct tm *ptminfo;
         time(&raw_time);
         ptminfo=localtime(&raw_time);
+#ifdef __APPLE__
         resultsFile <<ptminfo->tm_year<<"-"<<ptminfo->tm_mon<<"-"<<ptminfo->tm_mday<<"-"<<ptminfo->tm_hour<<":"<<ptminfo->tm_min<<":"<<ptminfo->tm_sec<<endl;
         valuesFile <<ptminfo->tm_year<<"-"<<ptminfo->tm_mon<<"-"<<ptminfo->tm_mday<<"-"<<ptminfo->tm_hour<<":"<<ptminfo->tm_min<<":"<<ptminfo->tm_sec<<endl;
+#endif
         for (int k = 0; k < CLUTERNUM; k++)
         {
             K = nCluterK[i][k];
@@ -1034,11 +1032,13 @@ int main(int argc, char *argv[])
                 avgTime += Runtime;
                 valuesFile << setprecision(6) << scientific << ObjBest << ";";
             }
+#ifdef __APPLE__
             resultsFile << instanceName[i] << ":bestV=" << setprecision(6) << scientific << bestValue;
             resultsFile << ",avgV=" << setprecision(6) << scientific << avgValue / Runs;
             resultsFile << ",bestTime=" << setprecision(2) << fixed << bestTime;
             resultsFile << ",avgTime=" << setprecision(2) << fixed << avgTime / Runs << ",K=" << K << endl;
             valuesFile << ",K=" << K << endl;
+#endif
             cout << endl;
             freeMemory1();
         }
