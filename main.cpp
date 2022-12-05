@@ -840,7 +840,7 @@ void memetic(double maxTime)
         crossover();
         rts(Child.p, maxTime);
         updatePopulation(child_update.p, child_update.cost);
-#ifdef __APPLE
+#ifdef __APPLE__
         printf("generations=%d,objbest=%6f,spend time=%f\n", iter++, ObjBest, (clock() - StartTime) / CLOCKS_PER_SEC);
 #endif
     }
@@ -971,7 +971,7 @@ int main(int argc, char *argv[])
     instances[15] = PATH + "datasets/image.txt";//2310
     nPoints[15] = 2310; nDimensions[15] = 19; nClusters[15] = 7;
     instanceName[15] = "image";
-#ifdef __APPLE
+#ifdef __APPLE__
     ofstream resultsFile;
     ofstream valuesFile;
     resultsFile.open(PATH+"resultsFile/resultados_MA_RTS.txt", ofstream::app);

@@ -583,3 +583,4 @@ wine:bestV=3.908593e+10,avgV=4.099287e+10,bestTime=0.68,avgTime=0.70,K=11
 wine:bestV=3.112262e+10,avgV=3.291595e+10,bestTime=0.68,avgTime=0.70,K=13
 wine:bestV=2.432338e+10,avgV=2.580801e+10,bestTime=0.78,avgTime=0.80,K=15
 wine:bestV=1.335856e+10,avgV=1.564879e+10,bestTime=0.85,avgTime=0.88,K=20
+122-11-5-16:0:47
