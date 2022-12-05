@@ -539,8 +539,10 @@ int rts(int *ss, double maxTime)
     ObjP = Objective;
     TR = 1 / (TA*(ObjP / 1000) + TB) + TC;
     ThreshT = (1 + TR)*ObjP;
+#ifdef __APPLE__
     cout<<ObjP<<" "<<TA<<" "<<TB<<" "<<TC<<" "<<TR<<endl;
     cout << "objective=" << Objective << ",ThreshT=" << ThreshT << endl;
+#endif
     initialMatrixNKAndObjClu(ss);
     child_update.cost = MAXNUM;
     //while ((clock() - StartTime) / CLOCKS_PER_SEC <= maxTime)
@@ -822,7 +824,9 @@ void compute_similarity()
         for (j = i + 1; j < PopNum; j++)
             sum_sim += Calculate_Sim_Between_Two(Pop[i].p, Pop[j].p);
     similarity = double(sum_sim) / (N*PopNum*(PopNum - 1) / 2);
+#ifdef __APPLE__
     cout << "similarity=" << similarity << endl;
+#endif
 }
 
 void memetic(double maxTime)
@@ -965,10 +969,12 @@ int main(int argc, char *argv[])
     instances[15] = PATH + "datasets/image.txt";//2310
     nPoints[15] = 2310; nDimensions[15] = 19; nClusters[15] = 7;
     instanceName[15] = "image";
+#ifdef __APPLE
     ofstream resultsFile;
     ofstream valuesFile;
     resultsFile.open(PATH+"resultsFile/resultados_MA_RTS.txt", ofstream::app);
     valuesFile.open(PATH+"valuesFile/solucoes_MA_RTS.txt", ofstream::app);
+#endif
     Runs = 10;
     RTS_ITER = 50;
     double bestValue = MAXNUM;
@@ -1012,25 +1018,33 @@ int main(int argc, char *argv[])
             bestTime = MAXNUM;
             avgValue = 0;
             avgTime = 0;
+#ifdef __APPLE__
             cout << "=================================================INSTANCE " << i + 1 << "=================================================" << endl;
             cout << "Location: " << instances[i] << endl;
             cout << "Clusters: " << K << endl;
             valuesFile << instanceName[i] << ":";
+#endif
             for (int j = 0; j < Runs; j++)
             {
+#ifdef __APPLE__
                 cout << "------------------------------------- Execution " << j + 1 << "-----------------------------------------" << endl;
                 cout << "maxTime = " << MaxTimes[i][k][j] << endl;
+#endif
                 StartTime = clock();
                 memetic(MaxTimes[i][k][j]);
                 Runtime = (FinishTime - StartTime) / CLOCKS_PER_SEC;
+#ifdef __APPLE__
                 cout << endl << setprecision(6) << scientific << "Objective Function value: " << ObjBest << " in " << setprecision(2) << fixed << Runtime << " seconds" << endl;
+#endif
                 if (ObjBest < bestValue)
                     bestValue = ObjBest;
                 if (Runtime < bestTime)
                     bestTime = Runtime;
                 avgValue += ObjBest;
                 avgTime += Runtime;
+#ifdef __APPLE__
                 valuesFile << setprecision(6) << scientific << ObjBest << ";";
+#endif
             }
 #ifdef __APPLE__
             resultsFile << instanceName[i] << ":bestV=" << setprecision(6) << scientific << bestValue;
