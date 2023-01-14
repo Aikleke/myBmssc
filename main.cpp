@@ -7,13 +7,21 @@
 #include<sstream>
 #include<iomanip>
 #include <time.h>
-#include <ctime>
 #include <cmath>
 #include<random>
 #include<vector>
+#include<algorithm>
 using namespace std;
-
-typedef long long LL;
+#define precision 1
+#define PopNum 15                                        //种群大小
+#define DEBUG2
+#define MAXNUM 99999999999999
+#define NUM1    50
+#define DEVIATION    0.000001
+#define DATASETNUM 16
+#define CLUTERNUM 10
+#define RUNS 10
+typedef double LL;
 double StartTime, FinishTime, Runtime;
 int Runs;        //每个算例运行次数
 
@@ -29,9 +37,24 @@ int D;        //dimensions
 int Type;        //算例类型
 LL **Point;    //顶点坐标，坐标维度为D
 LL **MatrixNK;
-double *ObjClu;    //每个cluster的目标值，没有除以该cluster的size
+LL *ObjClu;    //每个cluster的目标值，没有除以该cluster的size
 LL **DisSquare;    //欧几里得空间的任意两点的欧式距离的平方
 
+/**
+ * 为了进行贪心构造中的距离排序 的类
+ */
+class Node{
+public:
+    LL dis;
+    int index;
+    Node(LL dis,int index){
+        this->dis=dis;
+        this->index=index;
+    }
+    bool static increase(const Node &node1,const Node &node2){
+        return node1.dis<node2.dis;
+    }
+};
 // for random
 class Random {
 public:
@@ -66,7 +89,7 @@ std::mt19937 g(rd());
 //for the memetic algorithm
 typedef struct Population{
     int *p;
-    double cost;
+    LL cost;
 }Population;
 Population *Pop;
 Population Child;        //子代
@@ -93,15 +116,13 @@ int *randK;
 int *flagN;
 int *flagK;
 
-#define precision 100000
-#define PopNum 15                                        //种群大小
-#define DEBUG2
-#define MAXNUM 99999999999999
-#define NUM1    50
-#define DEVIATION    0.000001
-#define DATASETNUM 16
-#define CLUTERNUM 10
-#define RUNS 10
+/**
+ * 新增数据结构
+ */
+ //距离排序数据结构。 为了方便进行贪心构造
+vector<vector<Node>> nodeDisMatrix;
+
+
 double MaxTimes[DATASETNUM][CLUTERNUM][RUNS]; //数据集数量16*簇种类10*跑的次数10
 void initialing(string file)
 {
@@ -168,6 +189,25 @@ void initialing(string file)
             DisSquare[j][i] = DisSquare[i][j];
         }
     }
+#ifdef DEBUG
+    cout<<"打印距离排序数组"<<endl;
+#endif
+    for(int i=0;i<N;i++){
+        vector<Node> tmp;
+        nodeDisMatrix.emplace_back(tmp);
+    }
+    for(int i=0;i<N;i++){
+        for(int j=0;j<N;j++) {
+            nodeDisMatrix[i].emplace_back(Node(DisSquare[i][j],j));
+        }
+        sort(nodeDisMatrix[i].begin(),nodeDisMatrix[i].end(),Node::increase);
+#ifdef DEBUG
+        for(int j=0;j<N;j++) {
+            cout<<nodeDisMatrix[i][j].dis<<" "<<nodeDisMatrix[i][j].index<<"-- ";
+        }
+        cout<<endl;
+#endif
+    }
     fs.close();
 }
 
@@ -179,7 +219,7 @@ void allocateMemory()
         MatrixNK[i] = new LL[K];
     }
     CluLen = new int[K];
-    ObjClu = new double[K];
+    ObjClu = new LL[K];
     randN = new int[N];
     randK = new int[K];
     for(int i=0;i<N;i++){
@@ -264,7 +304,7 @@ void readTimeFile(string file)
  */
 void randomConstruction(int *ss)
 {
-    shuffle(randN, randN+N, g);
+    shuffle(randN, randN+N, g );
     int minLen=N/K;
     int index=0;
     for(int i=0;i<K;i++){
@@ -283,7 +323,43 @@ void randomConstruction(int *ss)
         }
     }
 }
+/**
+ * 一种贪心的构造方法
+ * 1.在所有点中 随机选择初始点
+ * 2.选择k or k+1个 距离当前点最近的点，将入到这个组中
+ *
+ */
+void greedyConstruction(int *ss)
+{
+//    打乱节点排列顺序
+    shuffle(randN, randN+N, g );
+    int minLen=N/K;
+    int index=0;
+    vector<int> flag(N);
+    int curGroup=0;
 
+    for(int i=0;i<K;i++){
+        if(i<N%K)
+            CluLen[i]=minLen+1;
+        else
+            CluLen[i] = minLen;
+    }
+    for(int i=0;i<N;i++){
+        if(flag[i]==1) continue;
+        if(curGroup==K) continue;
+        int j=0;
+        for(int k=0;k<CluLen[curGroup];k++){
+            while(j<N&&flag[nodeDisMatrix[i][j].index]==1)
+                j++;
+            flag[nodeDisMatrix[i][j].index]=1;
+            ss[nodeDisMatrix[i][j].index]=curGroup;
+        }
+        curGroup++;
+    }
+//    for(int i=0;i<N;i++)
+//        cout<<ss[i]<<" ";
+//    cout<<endl;
+}
 //计算目标函数值
 double caculateObj(int *ss)
 {
@@ -359,12 +435,12 @@ void checkMove(double obj, int *ss)
 }
 
 double cal_insert_delta(int *ss,int ele,int clu){
-    return (ObjClu[ss[ele]] - 1.0*MatrixNK[ele][ss[ele]]) / (CluLen[ss[ele]] - 1) + (MatrixNK[ele][clu] + ObjClu[clu]) / (CluLen[clu] + 1)
+    return (ObjClu[ss[ele]] - MatrixNK[ele][ss[ele]]) / (CluLen[ss[ele]] - 1) + (MatrixNK[ele][clu] + ObjClu[clu]) / (CluLen[clu] + 1)
            - (ObjClu[ss[ele]] / CluLen[ss[ele]] + ObjClu[clu] / CluLen[clu]);
 }
 double cal_swap_delta(int *ss,int ele,int ele2){
-    return 1.0*(MatrixNK[ele2][ss[ele]] - DisSquare[ele][ele2] - MatrixNK[ele][ss[ele]]) / CluLen[ss[ele]] +
-           1.0*(MatrixNK[ele][ss[ele2]] - DisSquare[ele][ele2] - MatrixNK[ele2][ss[ele2]]) / CluLen[ss[ele2]];
+    return (MatrixNK[ele2][ss[ele]] - DisSquare[ele][ele2] - MatrixNK[ele][ss[ele]]) / CluLen[ss[ele]] +
+           (MatrixNK[ele][ss[ele2]] - DisSquare[ele][ele2] - MatrixNK[ele2][ss[ele2]]) / CluLen[ss[ele2]];
 }
 void swap_move(int *ss,int ele,int ele2,double delta){
     int temp = ss[ele];
@@ -744,11 +820,12 @@ void  updatePopulation(int *ch, double cost)
             select = i;
         }
     }
-    flag_diff = 0;
-    for (i = 0; i < PopNum; i++)
+    for (i = 0; i < PopNum; i++) {
+        //通过cost的大小简单判断种群是否一样
         if (fabs(Pop[i].cost - cost) < DEVIATION)
-            flag_diff = 1;
-    if (cost < maxCost && flag_diff == 0)
+            return;
+    }
+    if (cost < maxCost)
     {
         for (i = 0; i < N; i++)
             Pop[select].p[i] = ch[i];
