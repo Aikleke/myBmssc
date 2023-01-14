@@ -21,6 +21,7 @@ using namespace std;
 #define DATASETNUM 16
 #define CLUTERNUM 10
 #define RUNS 10
+#define RANDOM_POPULATION_RATIO 0.5
 typedef double LL;
 double StartTime, FinishTime, Runtime;
 int Runs;        //每个算例运行次数
@@ -356,9 +357,6 @@ void greedyConstruction(int *ss)
         }
         curGroup++;
     }
-//    for(int i=0;i<N;i++)
-//        cout<<ss[i]<<" ";
-//    cout<<endl;
 }
 //计算目标函数值
 double caculateObj(int *ss)
@@ -655,7 +653,10 @@ void initialPopulation(double maxTime)
 {
     for (int i = 0; i < PopNum; i++)
     {
-        randomConstruction(Pop[i].p);
+        if(i<PopNum*RANDOM_POPULATION_RATIO)
+            randomConstruction(Pop[i].p);
+        else
+            greedyConstruction(Pop[i].p);
         initialMatrixNKAndObjClu(Pop[i].p);
         Objective=caculateObj(Pop[i].p);
         dbi(Pop[i].p, 0.01*maxTime);
@@ -1087,8 +1088,8 @@ int main(int argc, char *argv[])
         time(&raw_time);
         ptminfo=localtime(&raw_time);
 #ifdef __APPLE__
-        resultsFile <<ptminfo->tm_year+1900<<"-"<<ptminfo->tm_mon+1<<"-"<<ptminfo->tm_mday<<"-"<<ptminfo->tm_hour<<":"<<ptminfo->tm_min<<":"<<ptminfo->tm_sec<<endl;
-        valuesFile <<ptminfo->tm_year+1900<<"-"<<ptminfo->tm_mon+1<<"-"<<ptminfo->tm_mday<<"-"<<ptminfo->tm_hour<<":"<<ptminfo->tm_min<<":"<<ptminfo->tm_sec<<endl;
+        resultsFile <<ptminfo->tm_year+1900<<"-"<<ptminfo->tm_mon+1<<"-"<<ptminfo->tm_mday<<"-"<<ptminfo->tm_hour<<":"<<ptminfo->tm_min<<":"<<ptminfo->tm_sec<<"   "<<"random/greedy="<<RANDOM_POPULATION_RATIO<<endl;
+        valuesFile <<ptminfo->tm_year+1900<<"-"<<ptminfo->tm_mon+1<<"-"<<ptminfo->tm_mday<<"-"<<ptminfo->tm_hour<<":"<<ptminfo->tm_min<<":"<<ptminfo->tm_sec<<"   "<<"random/greedy="<<RANDOM_POPULATION_RATIO<<endl;
 #endif
         for (int k = 0; k < CLUTERNUM; k++)
         {

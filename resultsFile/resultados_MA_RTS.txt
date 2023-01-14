@@ -755,3 +755,14 @@ wine:bestV=4.008148e+05,avgV=4.284852e+05,bestTime=0.68,avgTime=0.71,K=11
 wine:bestV=3.231075e+05,avgV=3.441155e+05,bestTime=0.71,avgTime=0.72,K=13
 wine:bestV=2.450179e+05,avgV=2.577974e+05,bestTime=0.81,avgTime=0.82,K=15
 wine:bestV=1.397655e+05,avgV=1.636405e+05,bestTime=0.88,avgTime=0.90,K=20
+2023-1-14-21:13:49
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.55,avgTime=0.60,K=2
+wine:bestV=2.872532e+06,avgV=2.917379e+06,bestTime=0.44,avgTime=0.47,K=3
+wine:bestV=1.853024e+06,avgV=1.859105e+06,bestTime=0.57,avgTime=0.58,K=4
+wine:bestV=9.377357e+05,avgV=9.641936e+05,bestTime=0.47,avgTime=0.50,K=6
+wine:bestV=6.726716e+05,avgV=7.178743e+05,bestTime=0.50,avgTime=0.53,K=7
+wine:bestV=4.633301e+05,avgV=4.927005e+05,bestTime=0.58,avgTime=0.62,K=10
+wine:bestV=4.032277e+05,avgV=4.268841e+05,bestTime=0.68,avgTime=0.71,K=11
+wine:bestV=3.008130e+05,avgV=3.435607e+05,bestTime=0.69,avgTime=0.71,K=13
+wine:bestV=2.424806e+05,avgV=2.584304e+05,bestTime=0.80,avgTime=0.81,K=15
+wine:bestV=1.647731e+05,avgV=1.710898e+05,bestTime=0.88,avgTime=0.89,K=20
