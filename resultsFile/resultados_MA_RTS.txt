@@ -766,3 +766,5 @@ wine:bestV=4.032277e+05,avgV=4.268841e+05,bestTime=0.68,avgTime=0.71,K=11
 wine:bestV=3.008130e+05,avgV=3.435607e+05,bestTime=0.69,avgTime=0.71,K=13
 wine:bestV=2.424806e+05,avgV=2.584304e+05,bestTime=0.80,avgTime=0.81,K=15
 wine:bestV=1.647731e+05,avgV=1.710898e+05,bestTime=0.88,avgTime=0.89,K=20
+2023-2-1-18:43:21   random/greedy=0.5
+2023-2-1-18:44:16   random/greedy=0.5

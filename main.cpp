@@ -970,6 +970,7 @@ void freeMemory()
 
 int main(int argc, char *argv[])
 {
+    system("color F0");
     //cout<<<<endl;
     string instances[DATASETNUM];
     //数据集的数据：聚类数目，点数量，点纬度，算例名称
