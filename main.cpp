@@ -21,7 +21,7 @@ using namespace std;
 #define DATASETNUM 16
 #define CLUTERNUM 10
 #define RUNS 10
-#define RANDOM_POPULATION_RATIO 0.5
+#define RANDOM_POPULATION_RATIO 1
 typedef double LL;
 double StartTime, FinishTime, Runtime;
 int Runs;        //每个算例运行次数
@@ -450,6 +450,8 @@ void swap_move(int *ss,int ele,int ele2,double delta){
     updateMatrixNK(ele, temp, temp2);
     updateMatrixNK(ele2, temp2, temp);
     Objective += delta;
+    //Objective= caculateObj(ss);
+
 }
 void insert_move(int *ss,int ele,int clu,double delta){
     int temp = ss[ele];
@@ -460,6 +462,7 @@ void insert_move(int *ss,int ele,int clu,double delta){
     ObjClu[clu] += MatrixNK[ele][clu];
     updateMatrixNK(ele, temp, clu);
     Objective += delta;
+    //Objective= caculateObj(ss);
 }
 double tbe(int l_iter, int *ss, double maxTime)
 {
@@ -601,6 +604,165 @@ double dbi(int *ss, double maxTime)
     return Objective;
 }
 
+void update_tabu_table(int ele,int clu,int **tabu_table,int iter){
+    tabu_table[ele][clu]=iter+1;
+}
+void makeMove(int *ss,int **tabu_table,int ele1,int ele2,int neighbor_type,LL delta,int iter){
+    if(neighbor_type==0){
+        int clu=ele2;
+        if(clu>=K||clu<0||ele1>=N||ele1<0) cout<<"error"<<endl;
+        insert_move(ss,ele1,clu,delta);
+        update_tabu_table(ele1,clu,tabu_table,iter);
+    }else{
+        int clu1=ss[ele1],clu2=ss[ele2];
+        //delta= cal_swap_delta(ss,ele1,ele2);
+        if(clu1>=K||clu2>=K||clu1<0||clu2<0||ele1<0||ele2<0||ele2>=N||ele1>=N) {
+            cout<<ele1<<" "<<ele2<<endl;
+            cout<<"error"<<endl;
+        }
+        swap_move(ss,ele1,ele2,delta);
+        update_tabu_table(ele1,clu2,tabu_table,iter);
+        update_tabu_table(ele2,clu1,tabu_table,iter);
+    }
+}
+
+//descent based improvement with tabu
+double tabu_dbi(int *ss, double maxTime)
+{
+    //cout<<"hhhhh"<<endl;
+
+    LL delta;
+    int element=-1,cluster=-1;
+    int iter=0;
+    //邻域类型，0：插入邻域，1：交换邻域
+    int tabu_type=-1,non_tabu_type=-1;
+    int TABU_MAX_ITER=100;
+    int tabu_insert_i=-1,tabu_insert_j=-1,non_tabu_insert_i=-1,non_tabu_insert_j=-1;
+    int tabu_swap_i=-1,tabu_swap_j=-1,non_tabu_swap_i=-1,non_tabu_swap_j=-1;
+    /*
+     * 初始化禁忌表
+     */
+    int **tabu_table=new int*[N];
+    for(int i=0;i<N;i++){
+        tabu_table[i]=new int[K];
+        for(int j=0;j<K;j++) tabu_table[i][j]=0;
+    }
+    //Objective = caculateObj(ss);
+    //one-move move
+
+    while ((clock() - StartTime) / CLOCKS_PER_SEC <= maxTime && iter < TABU_MAX_ITER)
+    {
+
+        iter++;
+        LL tabuDelta=MAXNUM,nonTabuDelta=MAXNUM;
+        if (N%K != 0) {
+            //打乱顺序，随机构建邻域
+            shuffle(randN, randN + N, g);
+            shuffle(randK, randK + K, g);
+            for (int ind = 0; ind < N; ind++) {
+                int ele = randN[ind];
+                for (int jnd = 0; jnd < K; jnd++) {
+                    int clu = randK[jnd];
+                    if (CluLen[ss[ele]] == CluLen[clu] + 1) {
+                        delta = cal_insert_delta(ss, ele, clu);
+                        if (tabu_table[ele][clu] >= iter && delta <= tabuDelta) {
+                            //update tabu move
+                            tabu_type=0;
+                            tabuDelta=delta;
+                            tabu_insert_i=ele;
+                            tabu_insert_j=clu;
+                        } else if (tabu_table[ele][clu] < iter && delta <= nonTabuDelta) {
+                            //update nontabu move
+                            non_tabu_type=0;
+                            nonTabuDelta=delta;
+                            non_tabu_insert_i=ele;
+                            non_tabu_insert_j=clu;
+                        }
+                    }
+                }
+            }
+        }
+
+        //打乱顺序，随机构建邻域
+        shuffle(randN, randN+N,g);
+        for (int ind = 0; ind < N; ind++)
+        {
+            int ele = randN[ind];
+            for (int ind2 = ind + 1; ind2 < N; ind2++)
+            {
+                int ele2 = randN[ind2];
+                if (ss[ele] != ss[ele2])
+                {
+                    delta = cal_swap_delta(ss,ele,ele2);
+                    if(tabu_table[ele][ss[ele2]] >= iter && tabu_table[ele2][ss[ele]] >= iter){
+                        if(delta<=tabuDelta){
+                            tabu_type=1;
+                            tabuDelta=delta;
+                            tabu_swap_i=ele;
+                            tabu_swap_j=ele2;
+                        }
+                    }else{
+                        //non tabu best move
+
+                        if(delta<=nonTabuDelta){
+                            non_tabu_type=1;
+                            nonTabuDelta=delta;
+                            non_tabu_swap_i=ele;
+                            non_tabu_swap_j=ele2;
+                        }
+                    }
+                }
+            }
+        }
+
+        LL deltaValue;
+        int neighbor_type=-1;
+        int ele1=-1,ele2=-1;
+
+        //满足禁忌激活条件，可以使用禁忌解
+        if(tabuDelta < nonTabuDelta && tabuDelta <0){
+            deltaValue=tabuDelta;
+            if(tabu_type==0){
+                neighbor_type=0;
+                ele1=tabu_insert_i;
+                ele2=tabu_insert_j;
+            }else if(tabu_type==1){
+                neighbor_type=1;
+                ele1=tabu_swap_i;
+                ele2=tabu_swap_j;
+            }
+        }
+        //未能达到禁忌条件，不能使用禁忌解
+        else{
+            deltaValue=nonTabuDelta;
+            if(non_tabu_type==0){
+                neighbor_type=0;
+                ele1=non_tabu_insert_i;
+                ele2=non_tabu_insert_j;
+            }else if(non_tabu_type==1){
+                neighbor_type=1;
+                ele1=non_tabu_swap_i;
+                ele2=non_tabu_swap_j;
+            }
+        }
+        makeMove(ss,tabu_table,ele1,ele2,neighbor_type,deltaValue,iter);
+    }
+    if (Objective < ObjBest)
+    {
+        ObjBest = Objective;
+        FinishTime = clock();
+    }
+    /*
+     * 释放禁忌表占用的空间
+     */
+    for(int i=0;i<N;i++){
+        delete []tabu_table[i];
+    }
+    //cout<<"hhhhh"<<endl;
+    delete []tabu_table;
+    return Objective;
+}
+
 
 int rts(int *ss, double maxTime)
 {
@@ -626,7 +788,7 @@ int rts(int *ss, double maxTime)
     while (iter<RTS_ITER)
     {
         currentValue = tbe(LL, ss, maxTime);                                //threshold-based exploration
-        currentValue = dbi(ss, maxTime);                                    //descent-based improvement
+        currentValue = tabu_dbi(ss, maxTime);                                    //descent-based improvement
         if (currentValue < ObjP)
         {
             ObjP = currentValue;
@@ -698,15 +860,20 @@ void crossover()
     }
     //最大匹配
     sharedMax = 0;
+
+    //循环K次
     for (int iter = 0; iter < K; iter++)
     {
         sharedMax = 0;
+        //接下来的两重循环寻找最大匹配的簇
         for (i = 0; i < K; i++)
         {
+            //如果这个簇没有被使用过
             if (flagC1[i] == 0)
             {
                 for (m = 0; m < K; m++)
                 {
+                    //如果这个簇没有被使用过
                     if (flagC2[m] == 0)
                     {
                         sharedV = 0;
@@ -714,11 +881,13 @@ void crossover()
                         for (j = 0; j < len[i]; j++)
                         {
                             ver1 = arr1[i][j];
+                            //父点没有被用过
                             if (flagV[ver1] == 0)
                             {
                                 for (n = index; n < len2[m]; n++)
                                 {
                                     ver2 = arr2[m][n];
+                                    //母点没有被用过
                                     if (flagV[ver2] == 0)
                                     {
                                         if (ver1 == ver2)
@@ -970,7 +1139,6 @@ void freeMemory()
 
 int main(int argc, char *argv[])
 {
-    system("color F0");
     //cout<<<<endl;
     string instances[DATASETNUM];
     //数据集的数据：聚类数目，点数量，点纬度，算例名称
