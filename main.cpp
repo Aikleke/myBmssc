@@ -11,6 +11,7 @@
 #include<random>
 #include<vector>
 #include<algorithm>
+#include<set>
 using namespace std;
 #define precision 1
 #define PopNum 15                                        //种群大小
@@ -379,6 +380,7 @@ double caculateObj(int *ss)
         dd /= CluLen[i];
         obj += dd;
     }
+
     return obj;
 }
 
@@ -454,6 +456,17 @@ void swap_move(int *ss,int ele,int ele2,double delta){
 
 }
 void insert_move(int *ss,int ele,int clu,double delta){
+    int temp = ss[ele];
+    ss[ele] = clu;
+    CluLen[temp]--;
+    CluLen[clu]++;
+    ObjClu[temp] -= MatrixNK[ele][temp];
+    ObjClu[clu] += MatrixNK[ele][clu];
+    updateMatrixNK(ele, temp, clu);
+    Objective += delta;
+    //Objective= caculateObj(ss);
+}
+void insert_move_path_relinking(int *ss,int ele,int clu,double delta,int *CluLen){
     int temp = ss[ele];
     ss[ele] = clu;
     CluLen[temp]--;
@@ -788,7 +801,7 @@ int rts(int *ss, double maxTime)
     while (iter<RTS_ITER)
     {
         currentValue = tbe(LL, ss, maxTime);                                //threshold-based exploration
-        currentValue = tabu_dbi(ss, maxTime);                                    //descent-based improvement
+        currentValue = dbi(ss, maxTime);                                    //descent-based improvement
         if (currentValue < ObjP)
         {
             ObjP = currentValue;
@@ -976,6 +989,230 @@ void crossover()
     }
 }
 
+//backbone path_relinking:基于最大匹配
+void path_relinking()
+{
+    int parent1, parent2;
+    int i, j, m, n;
+    int ver1, ver2, sharedV, sharedMax;
+    int can1, can2;
+    set<int> *set1=new set<int>[K],*set1_rest=new set<int>[K];
+    set<int> *set2=new set<int>[K],*set2_rest=new set<int>[K];
+    LL best_obj=MAXNUM;
+    int *best_ss=new int[N];
+    //neighbor_type 0:插入，1:交换。
+    int neighbor_type,ele1,ele2;
+    parent1 = better_rand.pick(PopNum);
+    parent2 = better_rand.pick(PopNum);
+    while (parent1 == parent2)
+        parent2 = better_rand.pick(PopNum);
+    //先令子代与parent1完全一样
+    for (i = 0; i < N; i++)
+    {
+        Child.p[i] = Pop[parent1].p[i];
+        flagV[i] = 0;
+    }
+    Objective=caculateObj(Child.p);
+    for(i=0;i<N;i++)
+        best_ss[i]=Pop[parent1].p[i];
+    for (i = 0; i < K; i++)
+    {
+        flagC1[i] = 0;
+        flagC2[i] = 0;
+        len[i]=0;
+        len2[i]=0;
+    }
+    for (i = 0; i < N; i++)
+    {
+        int clu = Pop[parent1].p[i];
+        set1[clu].insert(i);
+        len[clu]++;
+        int clu2 = Pop[parent2].p[i];
+        set2[clu2].insert(i);
+        len2[clu2]++;
+    }
+    for(i=0;i<K;i++)
+        CluLen[i]=len[i];
+    //循环K次
+    for (int iter = 0; iter < K; iter++)
+    {
+        //最大匹配
+        sharedMax = 0;
+        //接下来的两重循环寻找最大匹配的簇
+        for (i = 0; i < K; i++)
+        {
+            //如果这个簇被使用过
+            if (flagC1[i] != 0) continue;
+            for (m = 0; m < K; m++)
+            {
+                //如果这个簇被使用过
+                if (flagC2[m] != 0) continue;
+                sharedV = 0;
+                for (const auto &ver1: set1[i]){
+                    for (const auto &ver2: set2[m]){
+                        if(flagV[ver1]==0&&flagV[ver2]==0&&ver1==ver2)
+                            sharedV++;
+                    }
+                }
+                if (sharedV > sharedMax)
+                {
+                    sharedMax = sharedV;
+                    can1 = i;
+                    can2 = m;
+                }
+            }
+        }
+        cout<<sharedMax<<" ";
+        match[can1] = can2;
+        flagC1[can1] = 1;
+        flagC2[can2] = 1;
+        //给子代分配节点
+        for (const auto &ver1: set1[can1]){
+            if(set2[can2].count(ver1)!=0) flagV[ver1]=1;
+            else set1_rest[can1].insert(ver1);
+        }
+        for (const auto &ver2: set2[can2]){
+            if(set1[can1].count(ver2)==0) set2_rest[can2].insert(ver2);
+        }
+        int child_len=CluLen[can1];
+        int parent2_len=len2[can2];
+        while(!set1_rest[can1].empty()||!set2_rest[can2].empty()) {
+            LL delta,min_delta=MAXNUM;
+            if (child_len < parent2_len) {
+                for (const auto &ver2: set2_rest[can2]) {
+                    delta = cal_insert_delta(Child.p, ver2, can1);
+                    if (delta < min_delta) {
+                        min_delta = delta;
+                        ele1 = ver2;
+                        ele2 = can1;
+                        neighbor_type = 0;
+                    }
+                }
+            } else if (child_len > parent2_len) {
+                for (const auto &ver1: set1_rest[can1]) {
+                    for (i = 0; i < K; i++) {
+                        if (i == can1) continue;
+                        if (CluLen[can1] <= CluLen[i]) continue;
+                        delta = cal_insert_delta(Child.p, ver1, i);
+                        if (delta < min_delta) {
+                            min_delta = delta;
+                            ele1 = ver1;
+                            ele2 = i;
+                            neighbor_type = 0;
+                        }
+                    }
+                }
+            }
+            for (const auto &ver1: set1_rest[can1]) {
+                for (const auto &ver2: set2_rest[can2]) {
+                    delta = cal_swap_delta(Child.p, ver1, ver2);
+                    if (delta < min_delta) {
+                        min_delta = delta;
+                        ele1 = ver1;
+                        ele2 = ver2;
+                        neighbor_type = 1;
+                    }
+                }
+            }
+            LL preObjective=Objective;
+            int tmp1,tmp2,tmp3;
+            if (neighbor_type == 1) {
+                //cout<<"doSwapMove"<<endl;
+                set1_rest[can1].erase(ele1);
+                set2_rest[can2].erase(ele2);
+                set1[can1].erase(ele1);
+                set1[can1].insert(ele2);
+                set1[Child.p[ele2]].erase(ele2);
+                set1[Child.p[ele2]].insert(ele1);
+                //if(fabs(delta-min_delta)>DEVIATION) cout<<"delta_error"<<endl;
+                //cout<<"delta:  "<<cal_swap_delta(Child.p,ele1,ele2)<<"  "<<min_delta<<endl;
+                swap_move(Child.p, ele1, ele2, cal_swap_delta(Child.p,ele1,ele2));
+                //删除两个剩余集合中的节点
+
+            } else {
+                //cout<<"doInsertMove"<<endl;
+                if (set1_rest[can1].size() > set2_rest[can2].size()) {
+                    tmp1=set1_rest[can1].erase(ele1);
+                    tmp2=set1[can1].erase(ele1);
+                    set1[ele2].insert(ele1);
+                } else {
+                    tmp1=set2_rest[can2].erase(ele1);
+                    set1[can1].insert(ele1);
+                    tmp2=set1[Child.p[ele1]].erase(ele1);
+                }
+                insert_move(Child.p, ele1, ele2, min_delta);
+                //cout<<"erase："<<tmp1<<" "<<tmp2;
+            }
+
+            if(set1_rest[can1].empty()&&set2_rest[can2].empty()&&iter==K-1) continue;
+            //cout<<preObjective<<" "<<Objective<<" ";
+            //Objective= caculateObj(Child.p);
+            //cout<<Objective<<endl;
+            int a[N];
+            for(int it=0;it<K;it++){
+                for (const auto &item: set1[it])
+                    a[item]=it;
+            }
+            for(int it=0;it<N;it++){
+                if(a[it]!=Child.p[it]) cout<<"ss_error";
+            }
+//            for(int it=0;it<N;it++)
+//                cout<<Child.p[it]<<" ";
+//            cout<<endl;
+            if(Objective<best_obj){
+                best_obj=Objective;
+                for(int it=0;it<N;it++) best_ss[it]=Child.p[it];
+            }
+            set<int> *set3=new set<int>[K];
+            for(int it=0;it<N;it++){
+                set3[Child.p[it]].insert(it);
+            }
+            int flag_balanced=1,cnt=0;
+            for(int it3=0;it3<K;it3++){
+                if(set3[it3].size()!=N/K&&set3[it3].size()!=N/K+1)
+                    flag_balanced=0;
+                cnt+=set3[it3].size();
+            }
+            if(cnt!=N) flag_balanced=0;
+//            if(!flag_balanced) {
+//                cout << "balancedError" << endl;
+//                for (int it3 = 0; it3 < K; it3++) {
+//                    cout<<set3[it3].size()<<" ";
+//                }
+//            }
+//            cout<<endl;
+//            for(int it=0;it<K;it++){
+//                for (const auto &ele1: set1[it]){
+//                    if(set3[it].count(ele1)==0) {
+//                        cout<<"setError:  "<<"  K "<<K<<"  N  "<<N<<endl;
+//                        for(int it2=0;it2<N;it2++){
+//                            cout<<it2<<":"<<Child.p[it2]<<" ";
+//                        }
+//                        cout<<endl;
+//                        cout<<"set1_size && set3_size"<<endl;
+//                        for(int it1=0;it1<K;it1++)
+//                            cout<<set1[it1].size()<<"  "<<set3[it1].size()<<endl;
+//                        for (const auto &item: set1[it]) cout<<item<<" ";
+//                        cout<<endl;
+//                        for (const auto &item: set3[it]) cout<<item<<" ";
+//                        cout<<endl;
+//                    }
+//                }
+//                for (const auto &ele3: set3[it]){
+//                    if(set1[it].count(ele3)==0) {
+//                        cout<<"setError:  set1_size "<<set1[it].size()<<"  set3_size "<<set3[it].size()<<"  K "<<K<<"  N  "<<N<<endl;
+//                        for (const auto &item: set1[it]) cout<<item<<" ";
+//                        cout<<endl;
+//                        for (const auto &item: set3[it]) cout<<item<<" ";
+//                        cout<<endl;
+//                    }
+//                }
+//            }
+
+        }
+    }
+}
+
 //种群更新：淘汰cost最差的个体,且新生的子代与种群中个体都不一样
 void  updatePopulation(int *ch, double cost)
 {
@@ -1086,7 +1323,8 @@ void memetic(double maxTime)
     int iter = 0;
     while ((clock() - StartTime) / CLOCKS_PER_SEC <= maxTime)
     {
-        crossover();
+        //crossover();
+        path_relinking();
         rts(Child.p, maxTime);
         updatePopulation(child_update.p, child_update.cost);
 #ifdef __APPLE__

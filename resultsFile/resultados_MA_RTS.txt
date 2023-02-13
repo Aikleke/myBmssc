@@ -839,3 +839,107 @@ wine:bestV=4.939292e+05,avgV=5.049309e+05,bestTime=0.52,avgTime=0.58,K=10
 wine:bestV=4.255746e+05,avgV=4.320687e+05,bestTime=0.55,avgTime=0.61,K=11
 wine:bestV=3.320197e+05,avgV=3.573777e+05,bestTime=0.56,avgTime=0.68,K=13
 wine:bestV=2.764871e+05,avgV=2.764871e+05,bestTime=0.55,avgTime=0.72,K=15
+2023-2-11-21:29:29   random/greedy=1
+2023-2-12-20:8:38   random/greedy=1
+2023-2-12-20:8:55   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.58,avgTime=0.60,K=2
+wine:bestV=2.872532e+06,avgV=2.899440e+06,bestTime=0.46,avgTime=0.47,K=3
+wine:bestV=1.853024e+06,avgV=1.863312e+06,bestTime=0.55,avgTime=0.57,K=4
+wine:bestV=9.397476e+05,avgV=9.728821e+05,bestTime=0.50,avgTime=0.51,K=6
+wine:bestV=6.781599e+05,avgV=7.172937e+05,bestTime=0.53,avgTime=0.55,K=7
+wine:bestV=4.817515e+05,avgV=4.952908e+05,bestTime=0.60,avgTime=0.62,K=10
+2023-2-12-21:30:50   random/greedy=1
+2023-2-12-21:33:18   random/greedy=1
+2023-2-12-21:33:41   random/greedy=1
+2023-2-12-21:34:9   random/greedy=1
+2023-2-12-21:34:50   random/greedy=1
+2023-2-12-21:37:52   random/greedy=1
+wine:bestV=4.338352e+05,avgV=5.112733e+05,bestTime=0.57,avgTime=0.60,K=2
+2023-2-12-21:38:24   random/greedy=1
+wine:bestV=4.648235e+05,avgV=5.283168e+05,bestTime=0.57,avgTime=0.60,K=2
+2023-2-12-21:54:57   random/greedy=1
+wine:bestV=3.253764e+05,avgV=3.484001e+05,bestTime=0.58,avgTime=0.60,K=2
+2023-2-12-21:55:8   random/greedy=1
+wine:bestV=3.827958e+05,avgV=4.632951e+05,bestTime=0.59,avgTime=0.60,K=2
+2023-2-12-21:56:3   random/greedy=1
+2023-2-12-21:57:51   random/greedy=1
+2023-2-12-21:58:3   random/greedy=1
+2023-2-12-21:58:34   random/greedy=1
+2023-2-12-22:10:19   random/greedy=1
+2023-2-12-22:12:39   random/greedy=1
+2023-2-12-22:13:20   random/greedy=1
+2023-2-12-22:13:43   random/greedy=1
+2023-2-12-22:14:41   random/greedy=1
+2023-2-12-22:15:38   random/greedy=1
+wine:bestV=1.084588e+06,avgV=1.475040e+06,bestTime=0.41,avgTime=0.57,K=2
+2023-2-13-9:45:39   random/greedy=1
+wine:bestV=8.134411e+05,avgV=9.358446e+05,bestTime=0.58,avgTime=0.60,K=2
+2023-2-13-9:46:1   random/greedy=1
+2023-2-13-9:47:26   random/greedy=1
+wine:bestV=1.084588e+06,avgV=1.279814e+06,bestTime=0.56,avgTime=0.58,K=2
+2023-2-13-9:51:18   random/greedy=1
+2023-2-13-9:51:30   random/greedy=1
+2023-2-13-9:55:56   random/greedy=1
+wine:bestV=8.134411e+05,avgV=1.249600e+06,bestTime=0.54,avgTime=0.59,K=2
+2023-2-13-9:57:30   random/greedy=1
+wine:bestV=1.084588e+06,avgV=1.323197e+06,bestTime=0.52,avgTime=0.58,K=2
+2023-2-13-10:5:44   random/greedy=1
+wine:bestV=1.084588e+06,avgV=1.496732e+06,bestTime=0.47,avgTime=0.56,K=2
+2023-2-13-10:7:2   random/greedy=1
+wine:bestV=1.301506e+06,avgV=1.583499e+06,bestTime=0.43,avgTime=0.56,K=2
+2023-2-13-10:7:55   random/greedy=1
+wine:bestV=7.230587e+05,avgV=9.438499e+05,bestTime=0.55,avgTime=0.59,K=2
+2023-2-13-10:13:50   random/greedy=1
+wine:bestV=1.084588e+06,avgV=1.323197e+06,bestTime=0.53,avgTime=0.57,K=2
+2023-2-13-10:14:27   random/greedy=1
+2023-2-13-10:14:36   random/greedy=1
+wine:bestV=1.084588e+06,avgV=1.236430e+06,bestTime=0.54,avgTime=0.59,K=2
+2023-2-13-10:18:29   random/greedy=1
+2023-2-13-10:18:42   random/greedy=1
+wine:bestV=9.296469e+05,avgV=1.502929e+06,bestTime=0.51,avgTime=0.59,K=2
+2023-2-13-10:22:30   random/greedy=1
+2023-2-13-10:23:19   random/greedy=1
+2023-2-13-10:30:51   random/greedy=1
+wine:bestV=1.301506e+06,avgV=1.518423e+06,bestTime=0.49,avgTime=0.56,K=2
+2023-2-13-10:31:54   random/greedy=1
+wine:bestV=1.301506e+06,avgV=1.399119e+06,bestTime=0.53,avgTime=0.59,K=2
+2023-2-13-10:32:27   random/greedy=1
+wine:bestV=1.084588e+06,avgV=1.550961e+06,bestTime=0.54,avgTime=0.59,K=2
+2023-2-13-10:43:52   random/greedy=1
+2023-2-13-10:50:0   random/greedy=1
+2023-2-13-11:5:30   random/greedy=1
+2023-2-13-11:6:41   random/greedy=1
+wine:bestV=1.084588e+06,avgV=1.702803e+06,bestTime=0.45,avgTime=0.57,K=2
+2023-2-13-11:6:55   random/greedy=1
+2023-2-13-11:8:49   random/greedy=1
+wine:bestV=1.301506e+06,avgV=1.659420e+06,bestTime=0.51,avgTime=0.59,K=2
+2023-2-13-11:9:18   random/greedy=1
+2023-2-13-11:13:8   random/greedy=1
+2023-2-13-11:16:0   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.50,avgTime=0.59,K=2
+2023-2-13-11:16:20   random/greedy=1
+2023-2-13-11:16:55   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.47,avgTime=0.58,K=2
+2023-2-13-11:17:45   random/greedy=1
+2023-2-13-11:18:31   random/greedy=1
+2023-2-13-11:19:6   random/greedy=1
+2023-2-13-11:20:17   random/greedy=1
+2023-2-13-11:21:15   random/greedy=1
+2023-2-13-11:22:36   random/greedy=1
+2023-2-13-11:22:57   random/greedy=1
+2023-2-13-11:26:38   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.43,avgTime=0.56,K=2
+2023-2-13-11:26:57   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.55,avgTime=0.59,K=2
+2023-2-13-11:33:15   random/greedy=1
+2023-2-13-11:36:9   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.56,avgTime=0.60,K=2
+2023-2-13-11:36:55   random/greedy=1
+2023-2-13-15:20:3   random/greedy=1
+2023-2-13-15:23:10   random/greedy=1
+2023-2-13-15:23:47   random/greedy=1
+2023-2-13-15:24:9   random/greedy=1
+2023-2-13-15:25:4   random/greedy=1
+2023-2-13-15:25:17   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.55,avgTime=0.59,K=2
+2023-2-13-15:25:42   random/greedy=1
