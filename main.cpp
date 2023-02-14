@@ -1,3 +1,7 @@
+/**
+ * 1.能否在path_relinking中加入 带有惩罚值的评估
+ * 2.设置path_relingking上下界
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -22,7 +26,10 @@ using namespace std;
 #define DATASETNUM 16
 #define CLUTERNUM 10
 #define RUNS 10
-#define RANDOM_POPULATION_RATIO 1
+#define RANDOM_POPULATION_RATIO 0.5
+#define PATH_RELINKING_UPPER 0.5
+#define PATH_RELINKING_LOWER 0.5
+
 typedef double LL;
 double StartTime, FinishTime, Runtime;
 int Runs;        //每个算例运行次数
@@ -423,17 +430,43 @@ void updateMatrixNK(int i, int g0, int g1)
 }
 
 
-void checkMove(double obj, int *ss)
+bool checkMove(double obj, int *ss)
 {
     double obj1 = caculateObj(ss);
     if (fabs(obj - obj1)>DEVIATION)
     {
         printf("heer,obj=%6f,obj1=%6f,", obj, obj1);
         cout << "obj!=obj1##############,error,please check the delta value" << endl;
+        for(int i=0;i<K;i++){
+            cout<<CluLen[i]<<" ";
+        }
+        for(int i=0;i<K;i++){
+            for(int j=0;j<N;j++){
+                if(ss[j]==i) cout<<j<<" ";
+            }
+            cout<<endl;
+        }
         getchar();
+        return false;
     }
+    return true;
 }
-
+bool checkLen(int *ss){
+    int clu_len_tmp[K];
+    memset(clu_len_tmp,0,sizeof(clu_len_tmp));
+    for(int i=0;i<N;i++){
+        clu_len_tmp[ss[i]]++;
+    }
+    for(int i=0;i<K;i++){
+        if(clu_len_tmp[i]!=CluLen[i]) {
+            cout<<i<<": trueLen "<<clu_len_tmp[i]<<" curLen"<<CluLen[i];
+            cout << "CluLen##############,error,please check the delta value" << endl;
+            getchar();
+            return false;
+        }
+    }
+    return true;
+}
 double cal_insert_delta(int *ss,int ele,int clu){
     return (ObjClu[ss[ele]] - MatrixNK[ele][ss[ele]]) / (CluLen[ss[ele]] - 1) + (MatrixNK[ele][clu] + ObjClu[clu]) / (CluLen[clu] + 1)
            - (ObjClu[ss[ele]] / CluLen[ss[ele]] + ObjClu[clu] / CluLen[clu]);
@@ -833,6 +866,40 @@ void initialPopulation(double maxTime)
         else
             greedyConstruction(Pop[i].p);
         initialMatrixNKAndObjClu(Pop[i].p);
+//        int a1[]={0,1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,23,24,26,27,28,29,30,31,32,33,34,35,36,37,38,41,42,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,70,73,74,95,144,157,176};
+//        int a2[]={59,61,63,64,66,67,71,72,75,76,77,79,80,83,84,85,86,90,91,92,93,94,97,99,102,103,105,106,107,108,111,113,114,115,116,117,118,121,122,123,124,125,126,127,128,131,137,142,143,146,149,150,151,152,156,160,165,170,171 };
+//        int a3[]={4,20,21,25,39,40,43,60,62,65,68,69,78,81,82,87,88,89,96,98,100,101,104,109,110,112,119,120,129,130,132,133,134,135,136,138,139,140,141,145,147,148,153,154,155,158,159,161,162,163,164,166,167,168,169,172,173,174,175,177};
+//
+//        int b1[]={0,1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,23,24,26,27,28,29,30,31,32,33,34,35,36,37,38,41,42,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,70,73,74,95,144,145,157 };
+//        int b2[]={59,61,63,64,66,67,71,72,75,76,77,79,80,83,84,85,86,90,91,92,93,94,97,99,102,103,105,106,107,108,111,113,114,115,116,117,118,121,122,123,124,125,126,127,128,131,137,142,143,146,149,150,151,152,156,160,165,170,171 };
+//        int b3[]={4,20,21,25,39,40,43,60,62,65,68,69,78,81,82,87,88,89,96,98,100,101,104,109,110,112,119,120,129,130,132,133,134,135,136,138,139,140,141,147,148,153,154,155,158,159,161,162,163,164,166,167,168,169,172,173,174,175,176,177};
+//        int *sss1=new int[N];
+//        int *sss2=new int[N];
+//        CluLen[0]=60;
+//        CluLen[1]=60;
+//        CluLen[2]=60;
+//        for(int j=0;j<CluLen[0];j++){
+//            sss1[a1[j]]=0;
+//        }
+//        for(int j=0;j<CluLen[1];j++){
+//            sss1[a2[j]]=1;
+//        }
+//        for(int j=0;j<CluLen[2];j++){
+//            sss1[a3[j]]=2;
+//        }
+//        for(int j=0;j<CluLen[0];j++){
+//            sss2[b1[j]]=0;
+//        }
+//        for(int j=0;j<CluLen[1];j++){
+//            sss2[b2[j]]=1;
+//        }
+//        for(int j=0;j<CluLen[2];j++){
+//            sss2[b3[j]]=2;
+//        }
+//        initialMatrixNKAndObjClu(sss1);
+//
+//        cout<<cal_swap_delta(sss1,176,145);
+//        cout<<"myObj: "<<caculateObj(sss1)<<" "<<caculateObj(sss2)<<endl;
         Objective=caculateObj(Pop[i].p);
         dbi(Pop[i].p, 0.01*maxTime);
         Pop[i].cost = Objective;
@@ -987,6 +1054,13 @@ void crossover()
         }
         //cout << "len111=" << len111 <<",unassLen="<<unassLen<< endl;
     }
+    for(int i=0;i<K;i++){
+        CluLen[i]=0;
+    }
+    for(int i=0;i<N;i++){
+        CluLen[Child.p[i]]++;
+    }
+    //checkLen(Child.p);
 }
 
 //backbone path_relinking:基于最大匹配
@@ -998,7 +1072,7 @@ void path_relinking()
     int can1, can2;
     set<int> *set1=new set<int>[K],*set1_rest=new set<int>[K];
     set<int> *set2=new set<int>[K],*set2_rest=new set<int>[K];
-    LL best_obj=MAXNUM;
+    LL best_obj=MAXNUM,pre_Obj;
     int *best_ss=new int[N];
     //neighbor_type 0:插入，1:交换。
     int neighbor_type,ele1,ele2;
@@ -1012,9 +1086,8 @@ void path_relinking()
         Child.p[i] = Pop[parent1].p[i];
         flagV[i] = 0;
     }
-    Objective=caculateObj(Child.p);
     for(i=0;i<N;i++)
-        best_ss[i]=Pop[parent1].p[i];
+        best_ss[i]=Child.p[i];
     for (i = 0; i < K; i++)
     {
         flagC1[i] = 0;
@@ -1033,6 +1106,8 @@ void path_relinking()
     }
     for(i=0;i<K;i++)
         CluLen[i]=len[i];
+    initialMatrixNKAndObjClu(Child.p);
+    Objective=caculateObj(Child.p);
     //循环K次
     for (int iter = 0; iter < K; iter++)
     {
@@ -1062,7 +1137,7 @@ void path_relinking()
                 }
             }
         }
-        cout<<sharedMax<<" ";
+        //cout<<"sharedMax "<<sharedMax;
         match[can1] = can2;
         flagC1[can1] = 1;
         flagC2[can2] = 1;
@@ -1074,11 +1149,12 @@ void path_relinking()
         for (const auto &ver2: set2[can2]){
             if(set1[can1].count(ver2)==0) set2_rest[can2].insert(ver2);
         }
-        int child_len=CluLen[can1];
-        int parent2_len=len2[can2];
+
         while(!set1_rest[can1].empty()||!set2_rest[can2].empty()) {
+            pre_Obj=Objective;
+            initialMatrixNKAndObjClu(Child.p);
             LL delta,min_delta=MAXNUM;
-            if (child_len < parent2_len) {
+            if (set1_rest[can1].size() < set2_rest[can2].size()) {
                 for (const auto &ver2: set2_rest[can2]) {
                     delta = cal_insert_delta(Child.p, ver2, can1);
                     if (delta < min_delta) {
@@ -1088,10 +1164,11 @@ void path_relinking()
                         neighbor_type = 0;
                     }
                 }
-            } else if (child_len > parent2_len) {
+            }
+            else if (set1_rest[can1].size() > set2_rest[can2].size()) {
                 for (const auto &ver1: set1_rest[can1]) {
                     for (i = 0; i < K; i++) {
-                        if (i == can1) continue;
+                        if (i == can1||flagC1[i]==1) continue;
                         if (CluLen[can1] <= CluLen[i]) continue;
                         delta = cal_insert_delta(Child.p, ver1, i);
                         if (delta < min_delta) {
@@ -1114,40 +1191,77 @@ void path_relinking()
                     }
                 }
             }
+            if(min_delta==MAXNUM) break;
             LL preObjective=Objective;
             int tmp1,tmp2,tmp3;
             if (neighbor_type == 1) {
-                //cout<<"doSwapMove"<<endl;
+//                cout<<"doSwapMove"<<endl;
+//                cout<<can1<<" "<<can2<<" "<<ele1<<" "<<ele2<<endl;
+//                for(int i=0;i<K;i++) {
+//                    for (const auto &item: set1[i]) cout << item << " ";
+//                    cout<<endl;
+//                }
+//                cout<<endl;
+//                for(int i=0;i<K;i++) {
+//                    for (const auto &item: set2[i]) cout << item << " ";
+//                    cout<<endl;
+//                }
+//                cout<<endl;
+//                for(int i=0;i<K;i++) {
+//                    for (const auto &item: set1_rest[i]) cout << item << " ";
+//                    cout<<endl;
+//                }
+//                cout<<endl;
+//                for(int i=0;i<K;i++) {
+//                    for (const auto &item: set2_rest[i]) cout << item << " ";
+//                    cout<<endl;
+//                }
                 set1_rest[can1].erase(ele1);
                 set2_rest[can2].erase(ele2);
                 set1[can1].erase(ele1);
                 set1[can1].insert(ele2);
                 set1[Child.p[ele2]].erase(ele2);
                 set1[Child.p[ele2]].insert(ele1);
-                //if(fabs(delta-min_delta)>DEVIATION) cout<<"delta_error"<<endl;
+                    //if(fabs(delta-min_delta)>DEVIATION) cout<<"delta_error"<<endl;
                 //cout<<"delta:  "<<cal_swap_delta(Child.p,ele1,ele2)<<"  "<<min_delta<<endl;
                 swap_move(Child.p, ele1, ele2, cal_swap_delta(Child.p,ele1,ele2));
                 //删除两个剩余集合中的节点
 
             } else {
-                //cout<<"doInsertMove"<<endl;
+//                cout<<"doInsertMove"<<endl;
+//                cout<<can1<<" "<<can2<<" "<<ele1<<" "<<ele2<<endl;
+//                for(int i=0;i<K;i++) {
+//                    for (const auto &item: set1[i]) cout << item << " ";
+//                    cout<<endl;
+//                }
+//                cout<<endl;
+//                for(int i=0;i<K;i++) {
+//                    for (const auto &item: set2[i]) cout << item << " ";
+//                    cout<<endl;
+//                }
+//                cout<<endl;
+//                for(int i=0;i<K;i++) {
+//                    for (const auto &item: set1_rest[i]) cout << item << " ";
+//                    cout<<endl;
+//                }
+//                cout<<endl;
+//                for(int i=0;i<K;i++) {
+//                    for (const auto &item: set2_rest[i]) cout << item << " ";
+//                    cout<<endl;
+//                }
                 if (set1_rest[can1].size() > set2_rest[can2].size()) {
                     tmp1=set1_rest[can1].erase(ele1);
                     tmp2=set1[can1].erase(ele1);
                     set1[ele2].insert(ele1);
-                } else {
+                }
+                else {
                     tmp1=set2_rest[can2].erase(ele1);
                     set1[can1].insert(ele1);
                     tmp2=set1[Child.p[ele1]].erase(ele1);
                 }
                 insert_move(Child.p, ele1, ele2, min_delta);
-                //cout<<"erase："<<tmp1<<" "<<tmp2;
             }
-
             if(set1_rest[can1].empty()&&set2_rest[can2].empty()&&iter==K-1) continue;
-            //cout<<preObjective<<" "<<Objective<<" ";
-            //Objective= caculateObj(Child.p);
-            //cout<<Objective<<endl;
             int a[N];
             for(int it=0;it<K;it++){
                 for (const auto &item: set1[it])
@@ -1156,24 +1270,34 @@ void path_relinking()
             for(int it=0;it<N;it++){
                 if(a[it]!=Child.p[it]) cout<<"ss_error";
             }
-//            for(int it=0;it<N;it++)
-//                cout<<Child.p[it]<<" ";
-//            cout<<endl;
             if(Objective<best_obj){
                 best_obj=Objective;
                 for(int it=0;it<N;it++) best_ss[it]=Child.p[it];
             }
-            set<int> *set3=new set<int>[K];
-            for(int it=0;it<N;it++){
-                set3[Child.p[it]].insert(it);
-            }
-            int flag_balanced=1,cnt=0;
-            for(int it3=0;it3<K;it3++){
-                if(set3[it3].size()!=N/K&&set3[it3].size()!=N/K+1)
-                    flag_balanced=0;
-                cnt+=set3[it3].size();
-            }
-            if(cnt!=N) flag_balanced=0;
+//            if(!checkMove(Objective, Child.p)){
+//                cout<<preObjective<<endl;
+//                for(int i=0;i<K;i++) {
+//                    for (const auto &item: set1[i]) cout << item << " ";
+//                    cout<<endl;
+//                }
+//                cout<<endl;
+//                for(int i=0;i<K;i++) {
+//                    for (const auto &item: set2[i]) cout << item << " ";
+//                    cout<<endl;
+//                }
+//            }
+
+//            set<int> *set3=new set<int>[K];
+//            for(int it=0;it<N;it++){
+//                set3[Child.p[it]].insert(it);
+//            }
+//            int flag_balanced=1,cnt=0;
+//            for(int it3=0;it3<K;it3++){
+//                if(set3[it3].size()!=N/K&&set3[it3].size()!=N/K+1)
+//                    flag_balanced=0;
+//                cnt+=set3[it3].size();
+//            }
+//            if(cnt!=N) flag_balanced=0;
 //            if(!flag_balanced) {
 //                cout << "balancedError" << endl;
 //                for (int it3 = 0; it3 < K; it3++) {
@@ -1208,9 +1332,16 @@ void path_relinking()
 //                    }
 //                }
 //            }
-
         }
     }
+    for(int i=0;i<K;i++){
+        CluLen[i]=0;
+    }
+    for(int i=0;i<N;i++){
+        Child.p[i]=best_ss[i];
+        CluLen[Child.p[i]]++;
+    }
+    checkLen(Child.p);
 }
 
 //种群更新：淘汰cost最差的个体,且新生的子代与种群中个体都不一样
@@ -1387,6 +1518,8 @@ int main(int argc, char *argv[])
 
     int nCluterK[DATASETNUM][CLUTERNUM];
     int cluK1[CLUTERNUM] = { 2, 3, 4, 6, 7, 10, 11, 13, 15, 20 };
+    //int cluK1[CLUTERNUM] = { 3, 4, 6, 7, 10, 11, 13, 15, 20 };
+
     string PATH;
 #ifdef __APPLE__
     PATH = "/Users/dongfengke/CLionProjects/myBmssc/";

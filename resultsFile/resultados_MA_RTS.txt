@@ -943,3 +943,279 @@ wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.56,avgTime=0.60,K=2
 2023-2-13-15:25:17   random/greedy=1
 wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.55,avgTime=0.59,K=2
 2023-2-13-15:25:42   random/greedy=1
+2023-2-13-15:34:50   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.50,avgTime=0.58,K=2
+2023-2-13-15:38:43   random/greedy=1
+2023-2-13-15:39:13   random/greedy=1
+2023-2-13-15:41:16   random/greedy=1
+2023-2-13-15:42:4   random/greedy=1
+2023-2-13-15:43:50   random/greedy=1
+2023-2-13-15:44:4   random/greedy=1
+2023-2-13-15:44:16   random/greedy=1
+2023-2-13-15:44:26   random/greedy=1
+2023-2-13-16:22:33   random/greedy=1
+2023-2-13-16:32:4   random/greedy=1
+2023-2-13-17:10:15   random/greedy=1
+2023-2-13-17:12:32   random/greedy=1
+2023-2-13-17:13:43   random/greedy=1
+2023-2-13-17:13:55   random/greedy=1
+2023-2-13-17:18:14   random/greedy=1
+2023-2-13-17:18:43   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.48,avgTime=0.58,K=2
+2023-2-13-17:27:53   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.51,avgTime=0.59,K=2
+2023-2-13-17:28:37   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.55,avgTime=0.60,K=2
+2023-2-13-17:29:25   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.53,avgTime=0.60,K=2
+2023-2-13-17:29:39   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.46,avgTime=0.57,K=2
+2023-2-13-17:36:29   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.44,avgTime=0.57,K=2
+2023-2-13-17:37:8   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.54,avgTime=0.57,K=2
+2023-2-13-17:38:15   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.48,avgTime=0.58,K=2
+2023-2-13-17:38:39   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.50,avgTime=0.57,K=2
+2023-2-13-17:43:17   random/greedy=1
+2023-2-13-17:43:28   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.52,avgTime=0.59,K=2
+2023-2-13-17:44:23   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.50,avgTime=0.58,K=2
+2023-2-13-19:19:33   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.54,avgTime=0.60,K=2
+2023-2-13-19:20:18   random/greedy=1
+2023-2-13-19:25:37   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.41,avgTime=0.57,K=2
+2023-2-13-19:28:5   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.49,avgTime=0.58,K=2
+2023-2-13-19:41:9   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.54,avgTime=0.59,K=2
+2023-2-13-19:43:48   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.52,avgTime=0.59,K=2
+2023-2-13-19:46:35   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.53,avgTime=0.58,K=2
+2023-2-13-19:47:47   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.46,avgTime=0.57,K=2
+2023-2-13-19:50:41   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.45,avgTime=0.56,K=2
+2023-2-13-19:54:24   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.49,avgTime=0.58,K=2
+2023-2-13-20:17:51   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.54,avgTime=0.60,K=2
+2023-2-13-20:20:10   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.53,avgTime=0.59,K=2
+2023-2-13-20:30:51   random/greedy=1
+2023-2-13-20:39:37   random/greedy=1
+2023-2-13-20:41:6   random/greedy=1
+2023-2-13-20:42:19   random/greedy=1
+2023-2-13-20:43:18   random/greedy=1
+2023-2-13-20:47:16   random/greedy=1
+2023-2-13-20:51:7   random/greedy=1
+2023-2-13-20:52:9   random/greedy=1
+2023-2-13-20:52:38   random/greedy=1
+2023-2-13-20:53:1   random/greedy=1
+2023-2-13-20:53:20   random/greedy=1
+2023-2-13-20:53:46   random/greedy=1
+2023-2-13-20:54:54   random/greedy=1
+2023-2-13-20:58:8   random/greedy=1
+2023-2-13-21:6:33   random/greedy=1
+2023-2-13-21:13:27   random/greedy=1
+2023-2-13-21:14:44   random/greedy=1
+2023-2-13-21:17:50   random/greedy=1
+2023-2-13-21:18:15   random/greedy=1
+2023-2-13-21:18:56   random/greedy=1
+2023-2-13-21:19:12   random/greedy=1
+2023-2-13-21:19:39   random/greedy=1
+2023-2-13-21:19:52   random/greedy=1
+2023-2-13-21:20:14   random/greedy=1
+2023-2-13-21:21:33   random/greedy=1
+2023-2-13-21:22:54   random/greedy=1
+wine:bestV=2.962226e+06,avgV=2.962226e+06,bestTime=0.48,avgTime=0.58,K=3
+2023-2-13-21:25:4   random/greedy=1
+wine:bestV=2.962226e+06,avgV=2.962226e+06,bestTime=0.49,avgTime=0.59,K=3
+wine:bestV=1.904950e+06,avgV=1.904950e+06,bestTime=0.34,avgTime=0.45,K=4
+wine:bestV=1.008776e+06,avgV=1.008776e+06,bestTime=0.51,avgTime=0.58,K=6
+wine:bestV=7.345635e+05,avgV=7.345635e+05,bestTime=0.42,avgTime=0.46,K=7
+wine:bestV=5.061534e+05,avgV=5.061534e+05,bestTime=0.46,avgTime=0.51,K=10
+wine:bestV=4.327903e+05,avgV=4.327903e+05,bestTime=0.51,avgTime=0.60,K=11
+wine:bestV=3.601952e+05,avgV=3.606832e+05,bestTime=0.51,avgTime=0.65,K=13
+2023-2-13-21:25:58   random/greedy=1
+wine:bestV=2.962226e+06,avgV=2.962226e+06,bestTime=0.41,avgTime=0.56,K=3
+wine:bestV=1.904950e+06,avgV=1.904950e+06,bestTime=0.39,avgTime=0.44,K=4
+2023-2-13-21:26:47   random/greedy=1
+wine:bestV=2.962226e+06,avgV=2.962226e+06,bestTime=0.57,avgTime=0.59,K=3
+wine:bestV=1.904950e+06,avgV=1.904950e+06,bestTime=0.46,avgTime=0.47,K=4
+wine:bestV=1.008776e+06,avgV=1.008776e+06,bestTime=0.53,avgTime=0.58,K=6
+wine:bestV=7.345635e+05,avgV=7.345635e+05,bestTime=0.48,avgTime=0.50,K=7
+wine:bestV=5.061534e+05,avgV=5.061534e+05,bestTime=0.53,avgTime=0.54,K=10
+wine:bestV=4.327903e+05,avgV=4.327903e+05,bestTime=0.59,avgTime=0.62,K=11
+wine:bestV=3.601952e+05,avgV=3.601952e+05,bestTime=0.66,avgTime=0.70,K=13
+wine:bestV=2.764871e+05,avgV=2.764871e+05,bestTime=0.68,avgTime=0.71,K=15
+2023-2-13-21:30:11   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.59,avgTime=0.60,K=2
+wine:bestV=2.962226e+06,avgV=2.962226e+06,bestTime=0.38,avgTime=0.47,K=3
+wine:bestV=1.904950e+06,avgV=1.904950e+06,bestTime=0.52,avgTime=0.58,K=4
+wine:bestV=1.008776e+06,avgV=1.008776e+06,bestTime=0.44,avgTime=0.49,K=6
+wine:bestV=7.345635e+05,avgV=7.345635e+05,bestTime=0.53,avgTime=0.54,K=7
+wine:bestV=5.061534e+05,avgV=5.061534e+05,bestTime=0.58,avgTime=0.62,K=10
+wine:bestV=4.327903e+05,avgV=4.327903e+05,bestTime=0.65,avgTime=0.69,K=11
+wine:bestV=3.601952e+05,avgV=3.601952e+05,bestTime=0.68,avgTime=0.70,K=13
+wine:bestV=2.764871e+05,avgV=2.764871e+05,bestTime=0.77,avgTime=0.81,K=15
+wine:bestV=1.737925e+05,avgV=1.737925e+05,bestTime=0.88,avgTime=0.89,K=20
+2023-2-13-21:32:21   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.49,avgTime=0.59,K=2
+2023-2-13-21:34:14   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.58,avgTime=0.60,K=2
+2023-2-13-21:34:52   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.51,avgTime=0.59,K=2
+2023-2-13-21:49:32   random/greedy=1
+2023-2-13-22:2:43   random/greedy=1
+wine:bestV=2.962226e+06,avgV=2.962226e+06,bestTime=0.59,avgTime=0.60,K=3
+wine:bestV=1.904950e+06,avgV=1.904950e+06,bestTime=0.45,avgTime=0.47,K=4
+wine:bestV=1.008776e+06,avgV=1.008776e+06,bestTime=0.55,avgTime=0.58,K=6
+wine:bestV=7.345635e+05,avgV=7.345635e+05,bestTime=0.47,avgTime=0.50,K=7
+wine:bestV=5.061534e+05,avgV=5.061534e+05,bestTime=0.53,avgTime=0.55,K=10
+wine:bestV=4.327903e+05,avgV=4.327903e+05,bestTime=0.61,avgTime=0.63,K=11
+wine:bestV=3.601952e+05,avgV=3.601952e+05,bestTime=0.63,avgTime=0.69,K=13
+wine:bestV=2.764871e+05,avgV=2.764871e+05,bestTime=0.69,avgTime=0.72,K=15
+wine:bestV=1.737925e+05,avgV=1.737925e+05,bestTime=0.76,avgTime=0.80,K=20
+2023-2-13-22:4:3   random/greedy=1
+2023-2-13-22:4:35   random/greedy=1
+wine:bestV=2.962226e+06,avgV=2.962226e+06,bestTime=0.57,avgTime=0.59,K=3
+wine:bestV=1.904950e+06,avgV=1.904950e+06,bestTime=0.46,avgTime=0.47,K=4
+wine:bestV=1.008776e+06,avgV=1.008776e+06,bestTime=0.55,avgTime=0.58,K=6
+wine:bestV=7.345635e+05,avgV=7.345635e+05,bestTime=0.43,avgTime=0.49,K=7
+wine:bestV=5.061534e+05,avgV=5.061534e+05,bestTime=0.50,avgTime=0.53,K=10
+2023-2-13-22:5:10   random/greedy=1
+wine:bestV=2.962226e+06,avgV=2.962226e+06,bestTime=0.57,avgTime=0.59,K=3
+wine:bestV=1.904950e+06,avgV=1.904950e+06,bestTime=0.46,avgTime=0.48,K=4
+wine:bestV=1.008776e+06,avgV=1.008776e+06,bestTime=0.56,avgTime=0.59,K=6
+wine:bestV=7.345635e+05,avgV=7.345635e+05,bestTime=0.47,avgTime=0.50,K=7
+wine:bestV=5.061534e+05,avgV=5.061534e+05,bestTime=0.51,avgTime=0.54,K=10
+wine:bestV=4.327903e+05,avgV=4.327903e+05,bestTime=0.59,avgTime=0.62,K=11
+wine:bestV=3.601952e+05,avgV=3.601952e+05,bestTime=0.58,avgTime=0.69,K=13
+wine:bestV=2.764871e+05,avgV=2.764871e+05,bestTime=0.65,avgTime=0.71,K=15
+wine:bestV=1.737925e+05,avgV=1.737925e+05,bestTime=0.80,avgTime=0.81,K=20
+2023-2-13-22:7:4   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.58,avgTime=0.60,K=2
+wine:bestV=2.962226e+06,avgV=2.962226e+06,bestTime=0.45,avgTime=0.46,K=3
+wine:bestV=1.904950e+06,avgV=1.904950e+06,bestTime=0.57,avgTime=0.59,K=4
+wine:bestV=1.008776e+06,avgV=1.008776e+06,bestTime=0.45,avgTime=0.50,K=6
+wine:bestV=7.345635e+05,avgV=7.345635e+05,bestTime=0.52,avgTime=0.55,K=7
+wine:bestV=5.061534e+05,avgV=5.061534e+05,bestTime=0.59,avgTime=0.62,K=10
+wine:bestV=4.327903e+05,avgV=4.327903e+05,bestTime=0.70,avgTime=0.71,K=11
+wine:bestV=3.601952e+05,avgV=3.601952e+05,bestTime=0.69,avgTime=0.71,K=13
+wine:bestV=2.764871e+05,avgV=2.764871e+05,bestTime=0.74,avgTime=0.81,K=15
+wine:bestV=1.737925e+05,avgV=1.737925e+05,bestTime=0.83,avgTime=0.89,K=20
+2023-2-13-22:11:15   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.56,avgTime=0.59,K=2
+wine:bestV=2.872329e+06,avgV=2.899379e+06,bestTime=0.44,avgTime=0.47,K=3
+wine:bestV=1.843460e+06,avgV=1.872599e+06,bestTime=0.57,avgTime=0.58,K=4
+wine:bestV=8.404823e+05,avgV=9.163123e+05,bestTime=0.50,avgTime=0.50,K=6
+wine:bestV=6.726716e+05,avgV=6.914568e+05,bestTime=0.52,avgTime=0.53,K=7
+wine:bestV=4.760401e+05,avgV=4.914515e+05,bestTime=0.59,avgTime=0.62,K=10
+wine:bestV=3.855611e+05,avgV=4.011914e+05,bestTime=0.69,avgTime=0.70,K=11
+wine:bestV=2.856463e+05,avgV=3.171878e+05,bestTime=0.68,avgTime=0.71,K=13
+wine:bestV=2.324744e+05,avgV=2.511627e+05,bestTime=0.75,avgTime=0.80,K=15
+wine:bestV=1.324687e+05,avgV=1.422142e+05,bestTime=0.86,avgTime=0.88,K=20
+2023-2-13-22:17:28   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.53,avgTime=0.59,K=2
+wine:bestV=2.905207e+06,avgV=2.956524e+06,bestTime=0.43,avgTime=0.47,K=3
+wine:bestV=1.894569e+06,avgV=1.901835e+06,bestTime=0.54,avgTime=0.57,K=4
+wine:bestV=9.809361e+05,avgV=1.005992e+06,bestTime=0.48,avgTime=0.50,K=6
+wine:bestV=7.081280e+05,avgV=7.160586e+05,bestTime=0.49,avgTime=0.53,K=7
+wine:bestV=5.059181e+05,avgV=5.060593e+05,bestTime=0.57,avgTime=0.60,K=10
+wine:bestV=4.153527e+05,avgV=4.205799e+05,bestTime=0.69,avgTime=0.70,K=11
+wine:bestV=3.403746e+05,avgV=3.535277e+05,bestTime=0.68,avgTime=0.71,K=13
+wine:bestV=2.764871e+05,avgV=2.764871e+05,bestTime=0.80,avgTime=0.81,K=15
+wine:bestV=1.737925e+05,avgV=1.737925e+05,bestTime=0.85,avgTime=0.88,K=20
+2023-2-14-9:49:42   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.58,avgTime=0.60,K=2
+wine:bestV=2.962226e+06,avgV=2.962226e+06,bestTime=0.46,avgTime=0.47,K=3
+wine:bestV=1.904950e+06,avgV=1.904950e+06,bestTime=0.53,avgTime=0.58,K=4
+wine:bestV=1.008776e+06,avgV=1.008776e+06,bestTime=0.47,avgTime=0.50,K=6
+wine:bestV=7.345635e+05,avgV=7.345635e+05,bestTime=0.53,avgTime=0.55,K=7
+wine:bestV=5.059181e+05,avgV=5.061063e+05,bestTime=0.62,avgTime=0.63,K=10
+wine:bestV=4.327903e+05,avgV=4.327903e+05,bestTime=0.69,avgTime=0.71,K=11
+wine:bestV=3.467690e+05,avgV=3.588526e+05,bestTime=0.69,avgTime=0.71,K=13
+wine:bestV=2.764871e+05,avgV=2.764871e+05,bestTime=0.79,avgTime=0.82,K=15
+wine:bestV=1.471763e+05,avgV=1.711308e+05,bestTime=0.89,avgTime=0.90,K=20
+2023-2-14-9:53:38   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.60,avgTime=0.61,K=2
+wine:bestV=2.872532e+06,avgV=2.935318e+06,bestTime=0.43,avgTime=0.47,K=3
+wine:bestV=1.853024e+06,avgV=1.866751e+06,bestTime=0.55,avgTime=0.58,K=4
+wine:bestV=9.397476e+05,avgV=9.750182e+05,bestTime=0.48,avgTime=0.50,K=6
+wine:bestV=6.726716e+05,avgV=7.099204e+05,bestTime=0.52,avgTime=0.54,K=7
+wine:bestV=4.839682e+05,avgV=4.941274e+05,bestTime=0.59,avgTime=0.62,K=10
+wine:bestV=4.032277e+05,avgV=4.282576e+05,bestTime=0.70,avgTime=0.71,K=11
+wine:bestV=3.167392e+05,avgV=3.456767e+05,bestTime=0.70,avgTime=0.72,K=13
+wine:bestV=2.448928e+05,avgV=2.623607e+05,bestTime=0.80,avgTime=0.82,K=15
+wine:bestV=1.373045e+05,avgV=1.618834e+05,bestTime=0.88,avgTime=0.90,K=20
+2023-2-14-10:24:21   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.55,avgTime=0.60,K=2
+wine:bestV=2.962226e+06,avgV=2.962226e+06,bestTime=0.44,avgTime=0.47,K=3
+wine:bestV=1.904950e+06,avgV=1.904950e+06,bestTime=0.52,avgTime=0.56,K=4
+wine:bestV=1.008776e+06,avgV=1.008776e+06,bestTime=0.46,avgTime=0.50,K=6
+wine:bestV=7.345635e+05,avgV=7.345635e+05,bestTime=0.51,avgTime=0.54,K=7
+wine:bestV=5.059181e+05,avgV=5.061298e+05,bestTime=0.61,avgTime=0.62,K=10
+wine:bestV=4.327903e+05,avgV=4.327903e+05,bestTime=0.65,avgTime=0.69,K=11
+wine:bestV=3.403746e+05,avgV=3.519063e+05,bestTime=0.68,avgTime=0.71,K=13
+wine:bestV=2.764871e+05,avgV=2.764871e+05,bestTime=0.80,avgTime=0.81,K=15
+wine:bestV=1.737925e+05,avgV=1.737925e+05,bestTime=0.87,avgTime=0.90,K=20
+2023-2-14-10:29:2   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.56,avgTime=0.60,K=2
+wine:bestV=2.962226e+06,avgV=2.962226e+06,bestTime=0.43,avgTime=0.47,K=3
+wine:bestV=1.904950e+06,avgV=1.904950e+06,bestTime=0.53,avgTime=0.58,K=4
+wine:bestV=1.008776e+06,avgV=1.008776e+06,bestTime=0.48,avgTime=0.51,K=6
+wine:bestV=7.345635e+05,avgV=7.345635e+05,bestTime=0.47,avgTime=0.54,K=7
+wine:bestV=5.059181e+05,avgV=5.061298e+05,bestTime=0.61,avgTime=0.62,K=10
+wine:bestV=4.327492e+05,avgV=4.327862e+05,bestTime=0.66,avgTime=0.70,K=11
+wine:bestV=3.403746e+05,avgV=3.568705e+05,bestTime=0.69,avgTime=0.71,K=13
+wine:bestV=2.764871e+05,avgV=2.764871e+05,bestTime=0.79,avgTime=0.82,K=15
+wine:bestV=1.737925e+05,avgV=1.737925e+05,bestTime=0.88,avgTime=0.89,K=20
+2023-2-14-10:45:16   random/greedy=1
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.58,avgTime=0.60,K=2
+wine:bestV=2.905207e+06,avgV=2.956524e+06,bestTime=0.43,avgTime=0.47,K=3
+wine:bestV=1.904950e+06,avgV=1.904950e+06,bestTime=0.57,avgTime=0.59,K=4
+wine:bestV=9.809361e+05,avgV=1.005992e+06,bestTime=0.45,avgTime=0.50,K=6
+wine:bestV=7.081280e+05,avgV=7.213457e+05,bestTime=0.49,avgTime=0.53,K=7
+wine:bestV=5.059181e+05,avgV=5.061063e+05,bestTime=0.58,avgTime=0.62,K=10
+wine:bestV=4.153527e+05,avgV=4.240674e+05,bestTime=0.67,avgTime=0.70,K=11
+wine:bestV=3.403746e+05,avgV=3.574918e+05,bestTime=0.68,avgTime=0.70,K=13
+wine:bestV=2.764871e+05,avgV=2.764871e+05,bestTime=0.78,avgTime=0.81,K=15
+wine:bestV=1.737925e+05,avgV=1.737925e+05,bestTime=0.84,avgTime=0.88,K=20
+2023-2-14-10:50:11   random/greedy=0.7
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.58,avgTime=0.61,K=2
+wine:bestV=2.962226e+06,avgV=2.962226e+06,bestTime=0.46,avgTime=0.47,K=3
+wine:bestV=1.904950e+06,avgV=1.904950e+06,bestTime=0.56,avgTime=0.58,K=4
+wine:bestV=9.809361e+05,avgV=9.948559e+05,bestTime=0.48,avgTime=0.50,K=6
+wine:bestV=6.715431e+05,avgV=6.987241e+05,bestTime=0.51,avgTime=0.54,K=7
+wine:bestV=5.059181e+05,avgV=5.060593e+05,bestTime=0.57,avgTime=0.61,K=10
+wine:bestV=4.153527e+05,avgV=4.240674e+05,bestTime=0.69,avgTime=0.70,K=11
+wine:bestV=3.403746e+05,avgV=3.535277e+05,bestTime=0.68,avgTime=0.71,K=13
+wine:bestV=2.764871e+05,avgV=2.764871e+05,bestTime=0.79,avgTime=0.81,K=15
+wine:bestV=1.737925e+05,avgV=1.737925e+05,bestTime=0.86,avgTime=0.88,K=20
+2023-2-14-10:52:5   random/greedy=0.5
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.56,avgTime=0.60,K=2
+wine:bestV=2.962226e+06,avgV=2.962226e+06,bestTime=0.44,avgTime=0.47,K=3
+wine:bestV=1.904950e+06,avgV=1.904950e+06,bestTime=0.57,avgTime=0.58,K=4
+wine:bestV=9.809361e+05,avgV=9.865040e+05,bestTime=0.47,avgTime=0.50,K=6
+wine:bestV=6.794012e+05,avgV=7.023826e+05,bestTime=0.51,avgTime=0.54,K=7
+wine:bestV=5.059181e+05,avgV=5.060593e+05,bestTime=0.60,avgTime=0.62,K=10
+wine:bestV=4.153527e+05,avgV=4.292987e+05,bestTime=0.68,avgTime=0.70,K=11
+wine:bestV=3.403746e+05,avgV=3.567705e+05,bestTime=0.69,avgTime=0.71,K=13
+wine:bestV=2.764871e+05,avgV=2.764871e+05,bestTime=0.78,avgTime=0.81,K=15
+wine:bestV=1.737925e+05,avgV=1.737925e+05,bestTime=0.86,avgTime=0.89,K=20
+2023-2-14-11:7:13   random/greedy=0.5
+wine:bestV=6.507529e+06,avgV=6.507529e+06,bestTime=0.58,avgTime=0.60,K=2
+wine:bestV=2.962226e+06,avgV=2.962226e+06,bestTime=0.42,avgTime=0.47,K=3
+wine:bestV=1.904950e+06,avgV=1.904950e+06,bestTime=0.56,avgTime=0.58,K=4
+wine:bestV=9.809361e+05,avgV=9.809361e+05,bestTime=0.47,avgTime=0.50,K=6
+wine:bestV=6.715431e+05,avgV=7.013677e+05,bestTime=0.52,avgTime=0.54,K=7
+wine:bestV=5.059181e+05,avgV=5.059652e+05,bestTime=0.57,avgTime=0.61,K=10
+wine:bestV=4.110916e+05,avgV=4.271329e+05,bestTime=0.69,avgTime=0.70,K=11
+wine:bestV=3.403746e+05,avgV=3.531670e+05,bestTime=0.64,avgTime=0.71,K=13
+wine:bestV=2.764871e+05,avgV=2.764871e+05,bestTime=0.78,avgTime=0.80,K=15
+wine:bestV=1.737925e+05,avgV=1.737925e+05,bestTime=0.83,avgTime=0.88,K=20
