@@ -3,7 +3,6 @@
  * 2.设置path_relingking上下界
  */
 #include <stdio.h>
-#include <stdlib.h>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -26,9 +25,9 @@ using namespace std;
 #define DATASETNUM 16
 #define CLUTERNUM 10
 #define RUNS 10
-#define RANDOM_POPULATION_RATIO 0.5
-#define PATH_RELINKING_UPPER 0.5
-#define PATH_RELINKING_LOWER 0.5
+#define RANDOM_POPULATION_RATIO 1
+#define PATH_RELINKING_UPPER 1
+#define PATH_RELINKING_LOWER 0
 
 typedef double LL;
 double StartTime, FinishTime, Runtime;
@@ -169,7 +168,6 @@ void initialing(string file)
 #endif
         ss.clear();
     }
-
     BestS = new int[N];
     DisSquare = new LL*[N];
     for (int i = 0; i < N; i++)
@@ -220,6 +218,99 @@ void initialing(string file)
     fs.close();
 }
 
+void cleanInstance(string file,string clean_path)
+{
+    string sss;
+    int row = 0, col = 0;
+    string line;
+    stringstream ss;
+    fstream fs(file);
+    fstream fs2(clean_path,ostream::out);
+
+    if (!fs)
+    {
+        cout << "error open, File_Name " << file << endl;
+        getchar();
+        exit(1);
+    }
+    Point = new LL*[N];
+    for (int index = 0; index < N; index++)
+    {
+        Point[index] = new LL[D];
+    }
+    while (getline(fs, line))
+    {
+        col = 0;
+        ss << line;
+        while (ss >> sss)            //算例文件经过格式化处理，每列数据以制表符分割
+        {
+            cout<<sss<<endl;
+            if(col>0){
+                fs2<<sss<<" ";
+            }
+            col++;
+        }
+
+        fs2<<endl;
+        row++;
+#ifdef DEBUG1
+        for (int i = 0; i < D; i++)
+        {
+            cout << Point[row - 1][i] << ",";
+        }
+        cout << endl;
+#endif
+        ss.clear();
+    }
+    BestS = new int[N];
+    DisSquare = new LL*[N];
+    for (int i = 0; i < N; i++)
+    {
+        DisSquare[i] = new LL[N];
+    }
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < N; j++)
+            DisSquare[i][j] = 0;
+    }
+    Pop = new Population[PopNum];
+    for (int i = 0; i < PopNum; i++)
+        Pop[i].p = new int[N];
+    Child.p = new int[N];
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = i + 1; j < N; j++)
+        {
+            int dimens = 0;
+            while (dimens < D)
+            {
+                DisSquare[i][j] += (Point[i][dimens] - Point[j][dimens])*(Point[i][dimens] - Point[j][dimens])*precision;
+                dimens++;
+            }
+            DisSquare[j][i] = DisSquare[i][j];
+        }
+    }
+#ifdef DEBUG
+    cout<<"打印距离排序数组"<<endl;
+#endif
+    for(int i=0;i<N;i++){
+        vector<Node> tmp;
+        nodeDisMatrix.emplace_back(tmp);
+    }
+    for(int i=0;i<N;i++){
+        for(int j=0;j<N;j++) {
+            nodeDisMatrix[i].emplace_back(Node(DisSquare[i][j],j));
+        }
+        sort(nodeDisMatrix[i].begin(),nodeDisMatrix[i].end(),Node::increase);
+#ifdef DEBUG
+        for(int j=0;j<N;j++) {
+            cout<<nodeDisMatrix[i][j].dis<<" "<<nodeDisMatrix[i][j].index<<"-- ";
+        }
+        cout<<endl;
+#endif
+    }
+    fs.close();
+}
 void allocateMemory()
 {
     MatrixNK = new LL*[N];
@@ -256,7 +347,47 @@ void allocateMemory()
     }
     child_update.p = new int[N];
 }
-
+bool checkLen(int *ss){
+    int clu_len_tmp[K];
+    memset(clu_len_tmp,0,sizeof(clu_len_tmp));
+    for(int i=0;i<N;i++){
+        clu_len_tmp[ss[i]]++;
+    }
+    for(int i=0;i<K;i++){
+        if(clu_len_tmp[i]!=CluLen[i]) {
+            cout<<i<<": trueLen "<<clu_len_tmp[i]<<" curLen"<<CluLen[i];
+            cout << "CluLen##############,error,please check the delta value" << endl;
+            getchar();
+            return false;
+        }
+    }
+    return true;
+}
+bool checkBalance(int *ss,string title){
+    int clu_len_tmp[K];
+    int baseLen=N/K;
+    memset(clu_len_tmp,0,sizeof(clu_len_tmp));
+    for(int i=0;i<N;i++){
+        clu_len_tmp[ss[i]]++;
+    }
+    int sum=0;
+    for(int i=0;i<K;i++){
+        sum+=CluLen[i];
+        if(clu_len_tmp[i]!=baseLen&&clu_len_tmp[i]!=baseLen+1) {
+            cout<<title<<endl;
+            cout<<i<<": trueLen "<<clu_len_tmp[i]<<" curLen"<<CluLen[i];
+            cout << "Balanced##############,error,please check the delta value" << endl;
+            getchar();
+            return false;
+        }
+    }
+    if(sum!=N) {
+        cout << "totalLen##############,error,please check the delta value" << endl;
+        getchar();
+        return false;
+    }
+    return true;
+}
 void readTimeFile(string file)
 {
     string line;
@@ -369,6 +500,11 @@ void greedyConstruction(int *ss)
 //计算目标函数值
 double caculateObj(int *ss)
 {
+    for(int i=0;i<K;i++)
+        CluLen[i]=0;
+    for(int i=0;i<N;i++)
+        CluLen[ss[i]]++;
+    checkBalance(ss,"caculate");
     double dd;
     double obj = 0;
     for (int i = 0; i < K; i++)
@@ -451,22 +587,9 @@ bool checkMove(double obj, int *ss)
     }
     return true;
 }
-bool checkLen(int *ss){
-    int clu_len_tmp[K];
-    memset(clu_len_tmp,0,sizeof(clu_len_tmp));
-    for(int i=0;i<N;i++){
-        clu_len_tmp[ss[i]]++;
-    }
-    for(int i=0;i<K;i++){
-        if(clu_len_tmp[i]!=CluLen[i]) {
-            cout<<i<<": trueLen "<<clu_len_tmp[i]<<" curLen"<<CluLen[i];
-            cout << "CluLen##############,error,please check the delta value" << endl;
-            getchar();
-            return false;
-        }
-    }
-    return true;
-}
+
+
+
 double cal_insert_delta(int *ss,int ele,int clu){
     return (ObjClu[ss[ele]] - MatrixNK[ele][ss[ele]]) / (CluLen[ss[ele]] - 1) + (MatrixNK[ele][clu] + ObjClu[clu]) / (CluLen[clu] + 1)
            - (ObjClu[ss[ele]] / CluLen[ss[ele]] + ObjClu[clu] / CluLen[clu]);
@@ -866,6 +989,20 @@ void initialPopulation(double maxTime)
         else
             greedyConstruction(Pop[i].p);
         initialMatrixNKAndObjClu(Pop[i].p);
+//        int sss1[]={10,5,5,5,10,2,5,10,5,1,2,1,5,5,2,2,2,10,2,2,10,2,5,1,1,1,1,10,10,1,1,10,2,2,1,10,10,1,5,10,10,5,5,1,2,5,2,5,2,10,0,0,6,7,0,4,0,1,0,7,7,4,7,9,7,0,4,7,9,7,9,4,6,0,0,0,0,6,4,7,7,7,7,9,4,4,0,0,4,7,4,0,7,7,4,4,4,0,1,4,8,9,3,6,8,3,4,3,6,3,6,6,8,9,9,8,6,3,3,9,3,9,3,6,8,3,9,9,8,3,3,3,8,6,6,3,8,6,9,8,8,8,9,3,8,8,6,6,8,9};
+//        checkBalance(sss1,"result_check");
+//        cout<<endl;
+//        initialMatrixNKAndObjClu(sss1);
+//        cout<<"myObj: "<<caculateObj(sss1)<<" ";
+//        for(int j=0;j<K;j++){
+//            CluLen[j]=0;
+//        }
+//        for(int j=0;j<N;j++){
+//            CluLen[sss1[j]]++;
+//        }
+//        for(int j=0;j<K;j++){
+//            cout<<CluLen[j]<<endl;
+//        }
 //        int a1[]={0,1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,23,24,26,27,28,29,30,31,32,33,34,35,36,37,38,41,42,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,70,73,74,95,144,157,176};
 //        int a2[]={59,61,63,64,66,67,71,72,75,76,77,79,80,83,84,85,86,90,91,92,93,94,97,99,102,103,105,106,107,108,111,113,114,115,116,117,118,121,122,123,124,125,126,127,128,131,137,142,143,146,149,150,151,152,156,160,165,170,171 };
 //        int a3[]={4,20,21,25,39,40,43,60,62,65,68,69,78,81,82,87,88,89,96,98,100,101,104,109,110,112,119,120,129,130,132,133,134,135,136,138,139,140,141,145,147,148,153,154,155,158,159,161,162,163,164,166,167,168,169,172,173,174,175,177};
@@ -896,12 +1033,13 @@ void initialPopulation(double maxTime)
 //        for(int j=0;j<CluLen[2];j++){
 //            sss2[b3[j]]=2;
 //        }
-//        initialMatrixNKAndObjClu(sss1);
+
 //
 //        cout<<cal_swap_delta(sss1,176,145);
 //        cout<<"myObj: "<<caculateObj(sss1)<<" "<<caculateObj(sss2)<<endl;
         Objective=caculateObj(Pop[i].p);
         dbi(Pop[i].p, 0.01*maxTime);
+        //checkBalance(Pop[i].p,"check_dbi");
         Pop[i].cost = Objective;
     }
 }
@@ -1149,8 +1287,11 @@ void path_relinking()
         for (const auto &ver2: set2[can2]){
             if(set1[can1].count(ver2)==0) set2_rest[can2].insert(ver2);
         }
-
+        //当前簇的path_relinking次数
+        int path_relinking_clu_iter=0;
+        int total_path_relinking_iter=max(set1[can1].size(),set2[can2].size());
         while(!set1_rest[can1].empty()||!set2_rest[can2].empty()) {
+            path_relinking_clu_iter++;
             pre_Obj=Objective;
             initialMatrixNKAndObjClu(Child.p);
             LL delta,min_delta=MAXNUM;
@@ -1226,7 +1367,7 @@ void path_relinking()
                 //cout<<"delta:  "<<cal_swap_delta(Child.p,ele1,ele2)<<"  "<<min_delta<<endl;
                 swap_move(Child.p, ele1, ele2, cal_swap_delta(Child.p,ele1,ele2));
                 //删除两个剩余集合中的节点
-
+                //checkBalance(Child.p,"path_relinking_swap");
             } else {
 //                cout<<"doInsertMove"<<endl;
 //                cout<<can1<<" "<<can2<<" "<<ele1<<" "<<ele2<<endl;
@@ -1253,13 +1394,48 @@ void path_relinking()
                     tmp1=set1_rest[can1].erase(ele1);
                     tmp2=set1[can1].erase(ele1);
                     set1[ele2].insert(ele1);
+                    insert_move(Child.p, ele1, ele2, min_delta);
+                    //checkBalance(Child.p,"insert_set1_set2");
+
                 }
                 else {
                     tmp1=set2_rest[can2].erase(ele1);
                     set1[can1].insert(ele1);
                     tmp2=set1[Child.p[ele1]].erase(ele1);
+                    int clu2=Child.p[ele1];
+                    if(CluLen[clu2]==N/K&&N%K!=0){
+                        //如果簇中元素不足，从元素多的簇中移过来一个，可以考虑两种策略：随机或者贪心
+                        shuffle(randK,randK+K,g);
+                        for(int iClu=0;iClu<K;iClu++){
+                            int choose_clu=randK[iClu];
+                            if(choose_clu!=clu2&&flagC1[choose_clu]==0&&CluLen[choose_clu]>CluLen[clu2]){
+                                //需要对set进行维护  随机版
+                                int randV=better_rand.pick(N);
+                                while(set1[choose_clu].count(randV)==0){
+                                    randV=better_rand.pick(N);
+                                }
+                                set1[clu2].insert(randV);
+                                set1[Child.p[randV]].erase(randV);
+                                insert_move(Child.p,randV,clu2, cal_insert_delta(Child.p,randV,clu2));
+                                break;
+                            }
+                        }
+                    }
+                    //cout<<CluLen[Child.p[ele1]]<<"  "<<CluLen[ele2]<<endl;
+                    insert_move(Child.p, ele1, ele2, min_delta);
+//                    if(move_flag) cout<<"move success"<<endl;
+//                    else cout<<"move fail"<<endl;
+//                    cout<<neighbor_type<<endl;
+//                    for(int kIter=0;kIter<K;kIter++)
+//                        cout<<CluLen[kIter]<<" ";
+//                    cout<<endl;
+//                    for(int kIter=0;kIter<K;kIter++)
+//                        cout<<flagC1[kIter]<<" ";
+//                    cout<<endl;
+                    //checkBalance(Child.p,"insert_set2_set1");
+
                 }
-                insert_move(Child.p, ele1, ele2, min_delta);
+
             }
             if(set1_rest[can1].empty()&&set2_rest[can2].empty()&&iter==K-1) continue;
             int a[N];
@@ -1270,7 +1446,8 @@ void path_relinking()
             for(int it=0;it<N;it++){
                 if(a[it]!=Child.p[it]) cout<<"ss_error";
             }
-            if(Objective<best_obj){
+            double path_relinking_ratio=1.0*path_relinking_clu_iter/total_path_relinking_iter;
+            if(Objective<best_obj&&path_relinking_ratio>=PATH_RELINKING_LOWER&&path_relinking_ratio<=PATH_RELINKING_UPPER){
                 best_obj=Objective;
                 for(int it=0;it<N;it++) best_ss[it]=Child.p[it];
             }
@@ -1341,7 +1518,6 @@ void path_relinking()
         Child.p[i]=best_ss[i];
         CluLen[Child.p[i]]++;
     }
-    checkLen(Child.p);
 }
 
 //种群更新：淘汰cost最差的个体,且新生的子代与种群中个体都不一样
@@ -1456,8 +1632,12 @@ void memetic(double maxTime)
     {
         //crossover();
         path_relinking();
+        checkLen(Child.p);
+        //checkBalance(Child.p,"path_relinking_check");
         rts(Child.p, maxTime);
+        //checkBalance(child_update.p,"rts_check");
         updatePopulation(child_update.p, child_update.cost);
+        //checkBalance(child_update.p,"child_update_check");
 #ifdef __APPLE__
         printf("generations=%d,objbest=%6f,spend time=%f\n", iter++, (double)ObjBest, (clock() - StartTime) / CLOCKS_PER_SEC);
 #endif
@@ -1518,7 +1698,7 @@ int main(int argc, char *argv[])
 
     int nCluterK[DATASETNUM][CLUTERNUM];
     int cluK1[CLUTERNUM] = { 2, 3, 4, 6, 7, 10, 11, 13, 15, 20 };
-    //int cluK1[CLUTERNUM] = { 3, 4, 6, 7, 10, 11, 13, 15, 20 };
+    //int cluK1[CLUTERNUM] = { 11, 13, 15, 20 };
 
     string PATH;
 #ifdef __APPLE__
@@ -1564,7 +1744,7 @@ int main(int argc, char *argv[])
     nPoints[8] = 527; nDimensions[8] = 38; nClusters[8] = 13;
     instanceName[8] = "water";
     //10
-    instances[9] = PATH + "datasets/breast.txt";//569
+    instances[9] = PATH + "datasets/breast1.txt";//569
     nPoints[9] = 569; nDimensions[9] = 30; nClusters[9] = 2;
     instanceName[9] = "breast";
     //11
@@ -1572,23 +1752,23 @@ int main(int argc, char *argv[])
     nPoints[10] = 600; nDimensions[10] = 60; nClusters[10] = 6;
     instanceName[10] = "synthetic";
     //12
-    instances[11] = PATH + "datasets/vehicle.txt";//846
+    instances[11] = PATH + "datasets/vehicle1.txt";//846
     nPoints[11] = 846; nDimensions[11] = 18; nClusters[11] = 6;
     instanceName[11] = "vehicle";
     //13
-    instances[12] = PATH + "datasets/vowel.txt";//990
+    instances[12] = PATH + "datasets/vowel1.txt";//990
     nPoints[12] = 990; nDimensions[12] = 10; nClusters[12] = 11;
     instanceName[12] = "vowel";
     //14
-    instances[13] = PATH + "datasets/yeast.txt"; //1484
+    instances[13] = PATH + "datasets/yeast1.txt"; //1484
     nPoints[13] = 1484; nDimensions[13] = 8; nClusters[13] = 10;
     instanceName[13] = "yeast";
     //15
-    instances[14] = PATH + "datasets/multiple.txt";//2000
+    instances[14] = PATH + "datasets/multiple1.txt";//2000
     nPoints[14] = 2000; nDimensions[14] = 240; nClusters[14] = 7;
     instanceName[14] = "multiple";
     //16
-    instances[15] = PATH + "datasets/image.txt";//2310
+    instances[15] = PATH + "datasets/image1.txt";//2310
     nPoints[15] = 2310; nDimensions[15] = 19; nClusters[15] = 7;
     instanceName[15] = "image";
 #ifdef __APPLE__
@@ -1606,16 +1786,28 @@ int main(int argc, char *argv[])
     string timeFile = PATH + "datasets/time1.txt";
     readTimeFile(timeFile);
     ObjBest = MAXNUM;
-    /**
+    /*
      { 2, 3, 4, 6, 7, 10, 11, 13, 15, 20 }
      */
     for (int i = 0; i < DATASETNUM; i++)
         for (int j = 0; j < CLUTERNUM; j++)
             nCluterK[i][j] = cluK1[j];
-    for (int i = 1; i < 2; i++)
+
+    /**
+        将算例中所有点读到Point中
+    */
+//    int i=15;
+//    N = nPoints[i];
+//    D = nDimensions[i];
+//    cout<<N<<" "<<D<<endl;
+//    string clean_path=PATH+"datasets/image1.txt";
+//
+//    cleanInstance(instances[i],clean_path);
+    for (int i = 2; i < 3; i++)
     {
         N = nPoints[i];
         D = nDimensions[i];
+        cout<<N<<" "<<D<<endl;
         /**
          将算例中所有点读到Point中
          */
@@ -1664,6 +1856,21 @@ int main(int argc, char *argv[])
                     bestTime = Runtime;
                 avgValue += ObjBest;
                 avgTime += Runtime;
+                //打印最好结果的解
+                double my_best_value=MAXNUM;
+                int *best_ss=NULL;
+                for(int m=0;m<PopNum;m++){
+                    Pop[m].cost= caculateObj(Pop[m].p);
+                    if(my_best_value>Pop[m].cost){
+                        my_best_value=Pop[m].cost;
+                        best_ss=Pop[m].p;
+                    }
+                }
+                for(int m=0;m<N;m++){
+                    cout<<best_ss[m]<<" ";
+                }
+                //checkLen(best_ss);
+                //checkBalance(best_ss,"best_check");
 #ifdef __APPLE__
                 valuesFile << setprecision(6) << scientific << ObjBest << ";";
 #endif
@@ -1681,3 +1888,4 @@ int main(int argc, char *argv[])
         freeMemory();
     }
 }
+
