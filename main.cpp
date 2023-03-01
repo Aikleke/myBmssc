@@ -644,6 +644,10 @@ double tbe(int l_iter, int *ss, double maxTime)
         //打乱顺序，随机构建邻域
         shuffle(randN, randN+N,g);
         shuffle(randK, randK+K,g);
+        /**
+         * 为啥insert之后不停止呢？
+         * 因为是first-accpt循环
+         */
         if (N%K != 0)
         {
             for (int ind = 0; ind < N; ind++)
@@ -668,6 +672,10 @@ double tbe(int l_iter, int *ss, double maxTime)
                 }
             }
         }
+        /**
+         * 为啥swap之后不停止呢？
+         * 因为是first-accept循环
+         */
         //shuffle(randN,randN+N,g);
         //swap move
         for (int ind = 0; ind < N; ind++)
@@ -758,8 +766,12 @@ double dbi(int *ss, double maxTime)
                         swap_move(ss,ele,ele2,delta);
                         //checkMove(Objective, ss);
                         flag_move = 1;
-                        ind=0;
-                        ind2=-1;
+                        /**
+                         * 原文中没有，似乎没有啥影响
+                         * ind=0;
+                         * ind2=-1;
+                         */
+
                     }
                 }
             }
@@ -770,6 +782,47 @@ double dbi(int *ss, double maxTime)
         ObjBest = Objective;
         FinishTime = clock();
     }
+    return Objective;
+}
+
+double shake(int k, int *ss)
+{
+    LL delta;
+    //Objective = caculateObj(ss);
+    //one-move move
+    int cur_move = 0;
+
+    //打乱顺序，随机构建邻域
+    shuffle(randN, randN+N,g);
+    /**
+     * 为啥swap之后不停止呢？
+     * 因为是first-accept循环
+     */
+    //swap move
+    for (int ind = 0; ind < N; ind++)
+    {
+        int ele = randN[ind];
+        for (int ind2 = ind + 1; ind2 < N; ind2++)
+        {
+            int ele2 = randN[ind2];
+            if (ss[ele] != ss[ele2])
+            {
+                delta = cal_swap_delta(ss, ele,ele2);
+                //do swap
+                swap_move(ss,ele,ele2,delta);
+                if (Objective < ObjBest)
+                {
+                    ObjBest = Objective;
+                    FinishTime = clock();
+                }
+                //checkMove(Objective, ss);
+            }
+            cur_move++;
+            if(cur_move>=k) break;
+        }
+        if(cur_move>=k) break;
+    }
+    //}
     return Objective;
 }
 
@@ -973,6 +1026,38 @@ int rts(int *ss, double maxTime)
             child_update.cost = currentValue;
             memcpy(child_update.p, ss, sizeof(int)*N);
         }
+        iter++;
+    }
+    return Objective;
+}
+
+int random_shake(int *ss, double maxTime)
+{
+    int iter = 0, w = 0;
+    double currentValue;
+    Objective = caculateObj(ss);
+    int k=1;
+    int min_k=1;
+#ifdef __APPLE__
+    cout << "objective=" << Objective << "shake_k " << k << endl;
+#endif
+    initialMatrixNKAndObjClu(ss);
+    child_update.cost = MAXNUM;
+    //while ((clock() - StartTime) / CLOCKS_PER_SEC <= maxTime)
+
+    while (iter<RTS_ITER)
+    {
+        k=better_rand.pick(min_k,N/K-1);
+        currentValue = shake(k, ss);                                //threshold-based exploration
+        currentValue = dbi(ss, maxTime);                                    //descent-based improvement
+        min_k++;
+        if (currentValue < child_update.cost)
+        {
+            child_update.cost = currentValue;
+            memcpy(child_update.p, ss, sizeof(int)*N);
+            min_k=1;
+        }
+
         iter++;
     }
     return Objective;
@@ -1632,8 +1717,8 @@ void memetic(double maxTime)
     {
         //crossover();
         path_relinking();
-        checkLen(Child.p);
         //checkBalance(Child.p,"path_relinking_check");
+        //random_shake(Child.p,maxTime);
         rts(Child.p, maxTime);
         //checkBalance(child_update.p,"rts_check");
         updatePopulation(child_update.p, child_update.cost);
@@ -1803,7 +1888,7 @@ int main(int argc, char *argv[])
 //    string clean_path=PATH+"datasets/image1.txt";
 //
 //    cleanInstance(instances[i],clean_path);
-    for (int i = 2; i < 3; i++)
+    for (int i = 3; i < 16; i++)
     {
         N = nPoints[i];
         D = nDimensions[i];
